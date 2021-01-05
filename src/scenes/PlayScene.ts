@@ -26,22 +26,33 @@ export class PlayScene extends Phaser.Scene {
 		this.floor.body.allowGravity = false;
 		this.floor.body.setCollideWorldBounds(true);
 
-		// this.player  = this.physics.add.sprite(100, 100, 'player')
-		// this.player.setGravityY(1000)
+		this.player  = this.physics.add.sprite(100, 200, 'player')
+		this.player.setGravityY(1000)
 
-		// const spaceKey
-	
+		this.input.on('pointerdown', this.jump, this)
 	}
 
 
 
 	update(time: number, delta:number) {
 		this.floor.tilePositionX += 2.5
+		this.limits()
+		
+	}
+	
 
-
+	limits() {
+		const vector = this.player.getCenter() as any
+		if(vector.y < -200) {
+			this.player.setY(-200)
+		} else if(vector.y > appConfig.height) {
+			this.player.setY(appConfig.height)
+		}
 	}
 
 	jump() {
-
+		this.player.setVelocityY(-350)
+		this.player.setRotation(30)
+		console.log('Pressing key', this.player.getTopLeft())
 	}
 }
