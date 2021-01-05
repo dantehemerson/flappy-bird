@@ -4,6 +4,7 @@ export class PlayScene extends Phaser.Scene {
 	player: Phaser.Physics.Arcade.Sprite;
 	cursors: any;
 	private floor: Phaser.GameObjects.TileSprite
+	private playing: boolean = false;
 
 	constructor() {
     super({
@@ -26,8 +27,8 @@ export class PlayScene extends Phaser.Scene {
 		this.floor.body.allowGravity = false;
 		this.floor.body.setCollideWorldBounds(true);
 
-		this.player  = this.physics.add.sprite(100, 200, 'player')
-		this.player.setGravityY(1000)
+		this.player  = this.physics.add.sprite(90, 230, 'player')
+
 
 		this.input.on('pointerdown', this.jump, this)
 	}
@@ -35,6 +36,8 @@ export class PlayScene extends Phaser.Scene {
 
 
 	update(time: number, delta:number) {
+		if(!this.playing) this.player.setY(230)
+
 		this.floor.tilePositionX += 2.5
 		this.limits()
 		
@@ -51,8 +54,16 @@ export class PlayScene extends Phaser.Scene {
 	}
 
 	jump() {
+		
 		this.player.setVelocityY(-350)
-		this.player.setRotation(30)
-		console.log('Pressing key', this.player.getTopLeft())
+		this.playIfNotPlaying()
+		// this.player.setRotation(30)
+	}
+
+	playIfNotPlaying() {
+		if(!this.playing) {
+			this.player.setGravityY(1000)
+			this.playing = true;
+		}
 	}
 }
