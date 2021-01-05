@@ -1,46 +1,47 @@
-class TestScene extends Phaser.Scene {
-	player: Phaser.GameObjects.Sprite;
+import { appConfig } from '../app.config'
+
+export class PlayScene extends Phaser.Scene {
+	player: Phaser.Physics.Arcade.Sprite;
 	cursors: any;
+	private floor: Phaser.GameObjects.TileSprite
 
 	constructor() {
     super({
-			key: 'TestScene'
+			key: 'PlayScene'
 		});
 	}
 	
 	preload() {
-		this.load.tilemapTiledJSON('map', '/assets/tilemaps/desert.json');
-		this.load.image('Desert', '/assets/tilemaps/tmw_desert_spacing.png');
-		this.load.image('player', '/assets/sprites/mushroom.png');
+		this.load.image('floor', '/assets/sprites/base.png')
+		this.load.image('background', '/assets/sprites/background-day.png');
+		this.load.image('player', '/assets/sprites/redbird-midflap.png');		
 	}
 
 	create() {
-		var map:Phaser.Tilemaps.Tilemap = this.make.tilemap({ key: 'map' });
-		var tileset:Phaser.Tilemaps.Tileset = map.addTilesetImage('Desert');
-		var layer:Phaser.Tilemaps.StaticTilemapLayer = map.createStaticLayer(0, tileset, 0, 0);
+		this.add.image(0, 0, 'background').setOrigin(0, 0)
 
-		this.player = this.add.sprite(100, 100, 'player');
-		this.cursors = this.input.keyboard.createCursorKeys();
+		this.floor = this.add.tileSprite(0, 462, appConfig.width, 100, 'floor')
+		this.floor.setDepth(3);
+		this.physics.add.existing(this.floor, false);
+		this.floor.body.allowGravity = false;
+		this.floor.body.setCollideWorldBounds(true);
 
-		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    this.cameras.main.startFollow(this.player, false);
+		// this.player  = this.physics.add.sprite(100, 100, 'player')
+		// this.player.setGravityY(1000)
+
+		// const spaceKey
+	
 	}
+
+
 
 	update(time: number, delta:number) {
-		this.player.angle += 1;
-		if (this.cursors.left.isDown) {
-			this.player.x -= 5;
-		}
-		if (this.cursors.right.isDown) {
-			this.player.x += 5;
-		}
-		if (this.cursors.down.isDown) {
-			this.player.y += 5;
-		}
-		if (this.cursors.up.isDown) {
-			this.player.y -= 5;
-		}
+		this.floor.tilePositionX += 2.5
+
+
+	}
+
+	jump() {
+
 	}
 }
-
-export default TestScene;
