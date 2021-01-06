@@ -1,19 +1,17 @@
-import 'phaser';
-
+import Phaser from 'phaser'
 import { PlayScene } from './scenes/PlayScene';
-import { Bird } from './sprites/Bird';
 
-const config:GameConfig = {
+const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     parent: 'content',
     width: 288 ,
-    height: 512,
-    resolution: 1.4,
+    height: 502,
+    // resolution: 1.4,
     physics: {
       default: 'arcade',
       arcade: {
           gravity: { y: 600 },
-          debug: false
+          debug: false,
       }
   },
     backgroundColor: "#EDEEC9",
@@ -21,5 +19,4 @@ const config:GameConfig = {
       PlayScene
     ]
 };
-
 new Phaser.Game(config);
