@@ -53,6 +53,10 @@ float Sprite::getWidth() const {
   return frames.at(actualFrame).getWidth();
 }
 
+float Sprite::getHeight() const {
+  return frames.at(actualFrame).getHeight();
+}
+
 bool Sprite::animationFinish() const {
   return finish;
 }

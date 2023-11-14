@@ -21,3 +21,7 @@ int Frame::getTicks() const {
 float Frame::getWidth() const {
   return this->source.width;
 }
+
+float Frame::getHeight() const {
+  return this->source.height;
+}

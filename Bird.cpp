@@ -8,7 +8,7 @@ using namespace std;
 
 Bird::Bird(const float &x, const float &y, Game *g) {
   this->position = {x, y};
-  this->velocity = 10;
+  this->velocity = 6;
   this->state = Bird::BirdState::STATE_MOVING;
 
   this->initializeSprites();
@@ -47,7 +47,14 @@ void Bird::draw() const {
 
 void Bird::update() {
   LogInfo << this->position.x << " " << this->position.y << endl;
-  this->sprites[static_cast<size_t>(this->state)].update();
+
+  Sprite &activeSprite = this->sprites[static_cast<size_t>(this->state)];
+
+  if (this->position.y - activeSprite.getHeight() < 800) {
+    this->position.y += velocity;
+  }
+
+  activeSprite.update();
 }
 
 void Bird::doAction(action_t action, int magnitute) {
@@ -61,7 +68,7 @@ void Bird::doAction(action_t action, int magnitute) {
       break;
 
     case BirdActions::BIRD_ACTION_UP:
-      this->position.y = this->position.y - this->velocity;
+      this->position.y = this->position.y - this->velocity * 8;
       break;
 
     case BirdActions::BIRD_ACTION_DOWN:

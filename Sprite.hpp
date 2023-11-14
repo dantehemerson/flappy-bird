@@ -36,6 +36,7 @@ public:
   void setActualFrame(int frame);
 
   float getWidth() const;
+  float getHeight() const;
 
   ~Sprite();
 
