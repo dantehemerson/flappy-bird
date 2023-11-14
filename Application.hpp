@@ -19,6 +19,16 @@ public:
 
   ~Application();
 
+  typedef struct {
+    int width;
+    int height;
+    int fps;
+    int scale;
+    string title;
+  } Settings_t;
+
+  Settings_t settings;
+
 private:
   bool exit;
 

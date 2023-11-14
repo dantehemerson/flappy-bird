@@ -8,11 +8,17 @@
 
 using namespace std;
 
-Application::Application() : exit(false) {}
+Application::Application() : exit(false) {
+  this->settings = {.width = WITH_SCALE(143),
+                    .height = WITH_SCALE(255),
+                    .fps = 60,
+                    .scale = 4,
+                    .title = "Flappy Bird"};
+}
 
 void Application::init(int argc, char **argv) {
-  InitWindow(WITH_SCALE(143), WITH_SCALE(255), "Bird");
-  SetTargetFPS(60);
+  InitWindow(this->settings.width, this->settings.height, this->settings.title.c_str());
+  SetTargetFPS(this->settings.fps);
 
   R::getSingleton().loadResources();
 

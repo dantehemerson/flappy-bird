@@ -1,6 +1,7 @@
 #include "Bird.hpp"
 #include "Logger.h"
 #include "Sprite.hpp"
+#include "Utils.hpp"
 #include <raylib.h>
 
 using namespace std;
@@ -15,16 +16,29 @@ Bird::Bird(const float &x, const float &y, Game *g) {
 
 void Bird::initializeSprites() {
   // Moving
-  float birdFrameWidth = 17;
+  float birdFrameWidth = WITH_SCALE(17);
+  int ticks = 5;
   auto movingIndex = static_cast<size_t>(Bird::BirdState::STATE_MOVING);
   this->sprites[movingIndex].setOwner(this);
   this->sprites[movingIndex].setRepeat(true);
-  this->sprites[movingIndex].addFrame(
-      R::TextureIds::FLAPPY_SPRITES,
-      Rectangle{.x = 456, .y = 0, .width = birdFrameWidth, .height = birdFrameWidth}, 40);
-  this->sprites[movingIndex].addFrame(
-      R::TextureIds::FLAPPY_SPRITES,
-      Rectangle{.x = 472, .y = 0, .width = birdFrameWidth, .height = birdFrameWidth}, 40);
+  this->sprites[movingIndex].addFrame(R::TextureIds::FLAPPY_SPRITES,
+                                      {.x = WITH_SCALE(3),
+                                       .y = WITH_SCALE(491),
+                                       .width = birdFrameWidth,
+                                       .height = birdFrameWidth},
+                                      ticks);
+  this->sprites[movingIndex].addFrame(R::TextureIds::FLAPPY_SPRITES,
+                                      Rectangle{.x = WITH_SCALE(31),
+                                                .y = WITH_SCALE(491),
+                                                .width = birdFrameWidth,
+                                                .height = birdFrameWidth},
+                                      ticks);
+  this->sprites[movingIndex].addFrame(R::TextureIds::FLAPPY_SPRITES,
+                                      Rectangle{.x = WITH_SCALE(59),
+                                                .y = WITH_SCALE(491),
+                                                .width = birdFrameWidth,
+                                                .height = birdFrameWidth},
+                                      ticks);
 }
 
 void Bird::draw() const {

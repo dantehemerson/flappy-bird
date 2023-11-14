@@ -24,7 +24,7 @@ Game::Game(Application *const app)
   this->actorManager = new ActorManager();
   this->stageManager = new StageManager(actorManager);
 
-  Bird *bird = new Bird(300, 300, this);
+  Bird *bird = new Bird(this->app->settings.width / 2 - 30, 300, this);
   Control *controlBird = new Control();
   controlBird->setOwner(bird);
   controlBird->addActionName(BirdActions::BIRD_ACTION_RIGHT, "Bird go right");
