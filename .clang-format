@@ -1,0 +1,8 @@
+BasedOnStyle: LLVM
+IndentWidth: 2
+UseTab: Never
+Language: Cpp
+BreakBeforeBraces: Custom
+AllowShortFunctionsOnASingleLine: Inline
+ColumnLimit: 98
+IndentCaseLabels: true

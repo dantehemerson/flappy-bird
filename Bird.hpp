@@ -1,0 +1,30 @@
+#pragma once
+#ifndef BIRD_HPP
+#define BIRD_HPP
+
+#include "Actor.hpp"
+#include "ControllableActor.hpp"
+#include "Game.hpp"
+#include "Sprite.hpp"
+
+enum BirdActions { BIRD_ACTION_UP = 1, BIRD_ACTION_DOWN, BIRD_ACTION_LEFT, BIRD_ACTION_RIGHT };
+
+class Bird : public ControllableActor {
+public:
+  Bird(const float &x, const float &y, Game *g);
+
+  enum class BirdState : size_t { STATE_IDLE = 1, STATE_MOVING, STATE_DYING, STATE_DEAD };
+
+  virtual void draw() const override;
+  virtual void update() override;
+  virtual void doAction(action_t action, int magnitute) override;
+
+private:
+  Game *game;
+  BirdState state;
+  array<Sprite, 13> sprites;
+  void initializeSprites();
+  short velocity;
+};
+
+#endif // !BIRD_HPP

@@ -1,0 +1,1 @@
+Read: https://github.com/nadrino/simple-cpp-logger
