@@ -6,13 +6,14 @@
 
 class Actor {
 public:
-  explicit Actor(const float &x = 0.0f, const float &y = 0.0f);
+  explicit Actor(const float &x = 0.0f, const float &y = 0.0f, const float &rotation = 0.0f);
   virtual void draw() const = 0;
   virtual void update() = 0;
 
   virtual ~Actor();
 
   Vector2 position;
+  float rotation;
 };
 
 #endif // !ACTOR_HPP

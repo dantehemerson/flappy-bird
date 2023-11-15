@@ -16,6 +16,7 @@ public:
   virtual void update() override;
 
   float getWidth() const;
+  float getHeight() const;
   int getTicks() const;
 
 private:
