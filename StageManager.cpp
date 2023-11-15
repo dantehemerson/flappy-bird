@@ -2,8 +2,7 @@
 #include "Actor.hpp"
 #include "ActorManager.hpp"
 
-StageManager::StageManager(ActorManager *_actorManager)
-    : actorManager(_actorManager) {}
+StageManager::StageManager(ActorManager *_actorManager) : actorManager(_actorManager) {}
 
 void StageManager::update() {
   this->draw();

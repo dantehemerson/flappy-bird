@@ -29,14 +29,17 @@ public:
   // Set if the sprite will repeat or not.
   void setRepeat(bool repeat);
 
-  void addFrame(R::TextureIds idImage, const Rectangle &source, int ticks,
-                const float xDesp = 0.0f, const float yDesp = 0.0f);
+  void addFrame(R::TextureIds idImage, const Rectangle &source, int ticks);
+  void addFrameCentered(R::TextureIds idImage, const Rectangle &source, int ticks);
 
   void setActualTick(int tick);
   void setActualFrame(int frame);
 
   float getWidth() const;
   float getHeight() const;
+
+  // Returns the Y bottom position of the sprite.
+  float getBottom() const;
 
   ~Sprite();
 

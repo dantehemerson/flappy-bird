@@ -57,13 +57,27 @@ float Sprite::getHeight() const {
   return frames.at(actualFrame).getHeight();
 }
 
+float Sprite::getBottom() const {
+  auto &frame = frames.at(actualFrame);
+
+  if (frame.isCentered()) {
+    return this->owner->position.y + frame.getHeight() / 2;
+  } else {
+    return this->owner->position.y + frame.getHeight();
+  }
+}
+
 bool Sprite::animationFinish() const {
   return finish;
 }
 
-void Sprite::addFrame(R::TextureIds textureId, const Rectangle &source, int ticks,
-                      const float xDesp, const float yDesp) {
-  Frame frame(this->owner, textureId, source, ticks, xDesp, yDesp);
+void Sprite::addFrame(R::TextureIds textureId, const Rectangle &source, int ticks) {
+  Frame frame(this->owner, textureId, source, ticks);
+  frames.push_back(frame);
+}
+
+void Sprite::addFrameCentered(R::TextureIds textureId, const Rectangle &source, int ticks) {
+  Frame frame(this->owner, textureId, source, ticks, true);
   frames.push_back(frame);
 }
 

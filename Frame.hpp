@@ -10,13 +10,15 @@
 class Frame : public Actor {
 public:
   Frame(Actor *owner, R::TextureIds textureId, const Rectangle &source, int ticks,
-        const float xDesp = 0.0f, const float yDesp = 0.0F);
+        const bool center = false);
 
   virtual void draw() const override;
   virtual void update() override;
 
+  bool isCentered() const;
   float getWidth() const;
   float getHeight() const;
+
   int getTicks() const;
 
 private:
@@ -24,7 +26,8 @@ private:
   R::TextureIds textureId;
   Rectangle source;
   int ticks;
-  float xDesp;
-  float yDesp;
+
+  // Indicates if the frame should be drawn centered or not.
+  bool center;
 };
 #endif // !FRAME_HPP
