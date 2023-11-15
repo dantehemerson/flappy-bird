@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "Sprite.hpp"
 
-enum BirdActions { BIRD_ACTION_UP = 1, BIRD_ACTION_DOWN, BIRD_ACTION_LEFT, BIRD_ACTION_RIGHT };
+enum BirdActions { BIRD_ACTION_JUMP = 1 };
 
 class Bird : public ControllableActor {
 public:
@@ -24,7 +24,9 @@ private:
   BirdState state;
   array<Sprite, 13> sprites;
   void initializeSprites();
-  short velocity;
+  float velocity;
+  float speed;
+  float gravity;
 };
 
 #endif // !BIRD_HPP

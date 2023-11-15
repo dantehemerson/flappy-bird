@@ -27,21 +27,10 @@ Game::Game(Application *const app)
   Bird *bird = new Bird(this->app->settings.width / 2 - 30, 300, this);
   Control *controlBird = new Control();
   controlBird->setOwner(bird);
-  controlBird->addActionName(BirdActions::BIRD_ACTION_RIGHT, "Bird go right");
-  controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_RIGHT, this->app->getKeyboard(),
-                                   KeyboardKey::KEY_RIGHT, Peripheral::ON_PRESS);
 
-  controlBird->addActionName(BirdActions::BIRD_ACTION_LEFT, "Bird go left");
-  controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_LEFT, this->app->getKeyboard(),
-                                   KeyboardKey::KEY_LEFT, Peripheral::ON_PRESS);
-
-  controlBird->addActionName(BirdActions::BIRD_ACTION_UP, "Bird go up");
-  controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_UP, this->app->getKeyboard(),
-                                   KeyboardKey::KEY_UP, Peripheral::ON_PRESS);
-
-  controlBird->addActionName(BirdActions::BIRD_ACTION_DOWN, "Bird go down");
-  controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_DOWN, this->app->getKeyboard(),
-                                   KeyboardKey::KEY_DOWN, Peripheral::ON_PRESS);
+  controlBird->addActionName(BirdActions::BIRD_ACTION_JUMP, "Bird jump");
+  controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getKeyboard(),
+                                   KeyboardKey::KEY_SPACE, Peripheral::ON_PRESS);
 
   controlManager->addControl(controlBird);
   actorManager->add(bird);
