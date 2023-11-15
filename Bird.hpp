@@ -20,12 +20,12 @@ public:
   virtual void doAction(action_t action, int magnitute) override;
 
 private:
+  void initializeSprites();
+
   Game *game;
   BirdState state;
   array<Sprite, 13> sprites;
-  void initializeSprites();
   float velocity;
-  float speed;
   float gravity;
 };
 

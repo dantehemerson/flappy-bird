@@ -8,8 +8,10 @@ Frame::Frame(Actor *_owner, R::TextureIds _textureId, const Rectangle &_source, 
       yDesp(_yDesp) {}
 
 void Frame::draw() const {
-  DrawTextureRec(R::getSingleton().getTexture(this->textureId), this->source,
-                 this->owner->position, WHITE);
+  DrawTexturePro(
+      R::getSingleton().getTexture(this->textureId), this->source,
+      {this->owner->position.x, this->owner->position.y, this->getWidth(), this->getHeight()},
+      {this->getWidth() / 2, this->getHeight() / 2}, this->owner->rotation, WHITE);
 }
 
 void Frame::update() {}
