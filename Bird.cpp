@@ -70,6 +70,8 @@ void Bird::update() {
     this->position.y =
         Globals::Constants::SURFACE_Y - activeSprite.getHeight() / 2 + WITH_SCALE(2);
     // TODO: Die here
+  } else if (this->position.y < WITH_SCALE(-70)) { // Avoid going too high
+    this->position.y = WITH_SCALE(-70);
   }
 
   activeSprite.update();
