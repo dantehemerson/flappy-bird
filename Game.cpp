@@ -10,6 +10,7 @@
 #include "Keyboard.hpp"
 #include "Logger.h"
 #include "StageManager.hpp"
+#include "Surface.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
 
@@ -34,6 +35,9 @@ Game::Game(Application *const app)
 
   controlManager->addControl(controlBird);
   actorManager->add(bird);
+
+  Surface *surface = new Surface(this);
+  this->actorManager->add(surface);
 }
 
 void Game::draw() const {

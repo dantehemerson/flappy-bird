@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include "Bird.hpp"
+#include "Globals.hpp"
 #include "Logger.h"
 #include "Sprite.hpp"
 #include "Utils.hpp"
@@ -10,7 +11,7 @@ using namespace std;
 
 Bird::Bird(const float &x, const float &y, Game *g) {
   this->position = {x, y};
-  this->gravity = 0.4;
+  this->gravity = 0.44;
   this->velocity = 0;
   this->state = Bird::BirdState::STATE_MOVING;
 
@@ -24,24 +25,24 @@ void Bird::initializeSprites() {
   auto movingIndex = static_cast<size_t>(Bird::BirdState::STATE_MOVING);
   this->sprites[movingIndex].setOwner(this);
   this->sprites[movingIndex].setRepeat(true);
-  this->sprites[movingIndex].addFrame(R::TextureIds::FLAPPY_SPRITES,
-                                      {.x = WITH_SCALE(3),
-                                       .y = WITH_SCALE(491),
-                                       .width = birdFrameWidth,
-                                       .height = birdFrameWidth},
-                                      ticks);
-  this->sprites[movingIndex].addFrame(R::TextureIds::FLAPPY_SPRITES,
-                                      Rectangle{.x = WITH_SCALE(31),
-                                                .y = WITH_SCALE(491),
-                                                .width = birdFrameWidth,
-                                                .height = birdFrameWidth},
-                                      ticks);
-  this->sprites[movingIndex].addFrame(R::TextureIds::FLAPPY_SPRITES,
-                                      Rectangle{.x = WITH_SCALE(59),
-                                                .y = WITH_SCALE(491),
-                                                .width = birdFrameWidth,
-                                                .height = birdFrameWidth},
-                                      ticks);
+  this->sprites[movingIndex].addFrameCentered(R::TextureIds::FLAPPY_SPRITES,
+                                              {.x = WITH_SCALE(3),
+                                               .y = WITH_SCALE(491),
+                                               .width = birdFrameWidth,
+                                               .height = birdFrameWidth},
+                                              ticks);
+  this->sprites[movingIndex].addFrameCentered(R::TextureIds::FLAPPY_SPRITES,
+                                              Rectangle{.x = WITH_SCALE(31),
+                                                        .y = WITH_SCALE(491),
+                                                        .width = birdFrameWidth,
+                                                        .height = birdFrameWidth},
+                                              ticks);
+  this->sprites[movingIndex].addFrameCentered(R::TextureIds::FLAPPY_SPRITES,
+                                              Rectangle{.x = WITH_SCALE(59),
+                                                        .y = WITH_SCALE(491),
+                                                        .width = birdFrameWidth,
+                                                        .height = birdFrameWidth},
+                                              ticks);
 }
 
 void Bird::draw() const {
@@ -54,7 +55,7 @@ void Bird::update() {
 
   Sprite &activeSprite = this->sprites[static_cast<size_t>(this->state)];
 
-  if (this->position.y - activeSprite.getHeight() < 800 || this->velocity < 0) {
+  if (activeSprite.getBottom() < Globals::Constants::SURFACE_Y || this->velocity < 0) {
     this->velocity += this->gravity;
     this->position.y += velocity;
 
@@ -63,6 +64,14 @@ void Bird::update() {
 
     // TODO: Not sure if this must be the minimum rotation:
     this->rotation = std::max(-30.0f, std::min(90.0f, this->rotation));
+  }
+
+  if (activeSprite.getBottom() >= Globals::Constants::SURFACE_Y) {
+    this->position.y =
+        Globals::Constants::SURFACE_Y - activeSprite.getHeight() / 2 + WITH_SCALE(2);
+    // TODO: Die here
+  } else if (this->position.y < WITH_SCALE(-70)) { // Avoid going too high
+    this->position.y = WITH_SCALE(-70);
   }
 
   activeSprite.update();

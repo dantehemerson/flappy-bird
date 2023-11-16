@@ -20,6 +20,10 @@
 	"editor.formatOnSave": true,
 	"editor.defaultFormatter": "xaver.clang-format",
 	"clang-format.executable": "clang-format-11",
+  "editor.bracketPairColorization.enabled": false,
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.indentation": false,
+
 	"files.associations": {
 		"*.mdx": "markdown",
 		"__bit_reference": "cpp",

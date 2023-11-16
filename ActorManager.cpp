@@ -47,15 +47,13 @@ int ActorManager::size() const {
 }
 
 void ActorManager::update() {
-  list<Actor *>::iterator tempActorsIter;
-  for (tempActorsIter = actors.begin(); tempActorsIter != actors.end();
-       tempActorsIter++) {
-    (*tempActorsIter)->update();
+  for (auto &actor : actors) {
+    actor->update();
   }
 }
 
 ActorManager::~ActorManager() {
-  for (actorsIter = actors.begin(); actorsIter != actors.end(); actorsIter++) {
-    delete (*actorsIter);
+  for (auto actor : actors) {
+    delete actor;
   }
 }

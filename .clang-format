@@ -6,3 +6,4 @@ BreakBeforeBraces: Custom
 AllowShortFunctionsOnASingleLine: Inline
 ColumnLimit: 98
 IndentCaseLabels: true
+NamespaceIndentation: All
