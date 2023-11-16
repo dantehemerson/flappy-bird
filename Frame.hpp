@@ -19,6 +19,9 @@ public:
   float getWidth() const;
   float getHeight() const;
 
+  void setDisplacementY(const float &desplacementY) { this->displacement.y += desplacementY; }
+  void setDisplacementX(const float &desplacementX) { this->displacement.x += desplacementX; }
+
   int getTicks() const;
 
 private:
@@ -26,8 +29,8 @@ private:
   R::TextureIds textureId;
   Rectangle source;
   int ticks;
-
   // Indicates if the frame should be drawn centered or not.
   bool center;
+  Vector2 displacement;
 };
 #endif // !FRAME_HPP

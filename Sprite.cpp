@@ -71,14 +71,16 @@ bool Sprite::animationFinish() const {
   return finish;
 }
 
-void Sprite::addFrame(R::TextureIds textureId, const Rectangle &source, int ticks) {
+Frame &Sprite::addFrame(R::TextureIds textureId, const Rectangle &source, int ticks) {
   Frame frame(this->owner, textureId, source, ticks);
   frames.push_back(frame);
+  return this->frames[this->frames.size() - 1];
 }
 
-void Sprite::addFrameCentered(R::TextureIds textureId, const Rectangle &source, int ticks) {
+Frame &Sprite::addFrameCentered(R::TextureIds textureId, const Rectangle &source, int ticks) {
   Frame frame(this->owner, textureId, source, ticks, true);
   frames.push_back(frame);
+  return this->frames[this->frames.size() - 1];
 }
 
 void Sprite::setActualTick(int indexTick) {

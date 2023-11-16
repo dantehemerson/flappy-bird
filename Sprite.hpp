@@ -29,8 +29,8 @@ public:
   // Set if the sprite will repeat or not.
   void setRepeat(bool repeat);
 
-  void addFrame(R::TextureIds idImage, const Rectangle &source, int ticks);
-  void addFrameCentered(R::TextureIds idImage, const Rectangle &source, int ticks);
+  Frame &addFrame(R::TextureIds idImage, const Rectangle &source, int ticks);
+  Frame &addFrameCentered(R::TextureIds idImage, const Rectangle &source, int ticks);
 
   void setActualTick(int tick);
   void setActualFrame(int frame);
