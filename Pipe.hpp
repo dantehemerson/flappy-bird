@@ -13,14 +13,11 @@ public:
   virtual void draw() const override;
   virtual void update() override;
 
-  void setVelocityX(const float &velocity) { this->velocityX = velocity; }
-
 private:
   void initializeSprites();
 
   Sprite spritePipeTop;
   Sprite spritePipeBottom;
-  float velocityX;
 };
 
 #endif // !PIPE_HPP

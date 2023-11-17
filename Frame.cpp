@@ -11,8 +11,6 @@ void Frame::draw() const {
   Vector2 origin =
       this->center ? Vector2{this->getWidth() / 2, this->getHeight() / 2} : Vector2{0, 0};
 
-  LogAlert << "Displacement" << this->displacement.y << endl;
-
   DrawTexturePro(R::getSingleton().getTexture(this->textureId), this->source,
                  {this->owner->position.x + this->displacement.x,
                   this->owner->position.y + this->displacement.y, this->getWidth(),

@@ -8,9 +8,6 @@
 using namespace std;
 
 Pipe::Pipe() {
-  this->position = {0, 0};
-  this->velocityX = 0;
-
   this->initializeSprites();
 }
 
@@ -33,7 +30,7 @@ void Pipe::initializeSprites() {
                  .width = WITH_SCALE(26),
                  .height = WITH_SCALE(160)},
                 60)
-      .setDisplacementY(this->spritePipeTop.getBottom() + WITH_SCALE(30));
+      .setDisplacementY(this->spritePipeTop.getHeight() + WITH_SCALE(42));
 }
 
 void Pipe::draw() const {
@@ -41,10 +38,4 @@ void Pipe::draw() const {
   this->spritePipeBottom.draw();
 }
 
-void Pipe::update() {
-  this->position.x += this->velocityX;
-
-  if (this->position.x <= -WITH_SCALE(138)) {
-    this->position.x = this->position.x + WITH_SCALE(178) * 2;
-  }
-}
+void Pipe::update() {}

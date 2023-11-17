@@ -33,6 +33,4 @@ void SurfaceTile::update() {
   if (this->position.x <= -WITH_SCALE(168)) {
     this->position.x = this->position.x + WITH_SCALE(168) * 2;
   }
-
-  LogInfo << this->position.x << " " << this->position.y << endl;
 }

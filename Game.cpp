@@ -10,6 +10,7 @@
 #include "Keyboard.hpp"
 #include "Logger.h"
 #include "Pipe.hpp"
+#include "PipesManager.hpp"
 #include "StageManager.hpp"
 #include "Surface.hpp"
 #include "Utils.hpp"
@@ -26,11 +27,11 @@ Game::Game(Application *const app)
   this->actorManager = new ActorManager();
   this->stageManager = new StageManager(actorManager);
 
-  Pipe *pipe = new Pipe();
-  pipe->setVelocityX(-WITH_SCALE(1));
-  this->actorManager->add(pipe);
+  PipesManager *pipesManager = new PipesManager();
+  pipesManager->setVelocityX(-WITH_SCALE(1));
+  this->actorManager->add(pipesManager);
 
-  Bird *bird = new Bird(this->app->settings.width / 2 - 30, 400, this);
+  Bird *bird = new Bird(WITH_SCALE(143 / 2), 400, this);
   Control *controlBird = new Control();
   controlBird->setOwner(bird);
 

@@ -9,7 +9,7 @@
 using namespace std;
 
 Application::Application() : exit(false) {
-  this->settings = {.width = WITH_SCALE(143), // + 200,
+  this->settings = {.width = WITH_SCALE(143) + 800,
                     .height = WITH_SCALE(255),
                     .fps = 60,
                     .scale = 4,
