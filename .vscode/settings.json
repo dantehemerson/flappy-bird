@@ -104,7 +104,12 @@
 		"cinttypes": "cpp",
 		"iostream": "cpp",
 		"list": "cpp",
-		"map": "cpp"
+		"map": "cpp",
+		"__tree": "cpp",
+		"codecvt": "cpp",
+		"fstream": "cpp",
+		"semaphore": "cpp",
+		"unordered_set": "cpp"
 	},
 	"C_Cpp.errorSquiggles": "disabled",
   "search.exclude": {

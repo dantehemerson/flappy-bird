@@ -50,8 +50,8 @@ void Bird::draw() const {
 }
 
 void Bird::update() {
-  LogInfo << this->position.x << " " << this->position.y << "      g: " << this->gravity
-          << "       v: " << this->velocity << endl;
+  // LogInfo << this->position.x << " " << this->position.y << "      g: " << this->gravity
+  //         << "       v: " << this->velocity << endl;
 
   Sprite &activeSprite = this->sprites[static_cast<size_t>(this->state)];
 
