@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <vector>
 
 #include "ActorManager.hpp"
@@ -13,6 +14,7 @@
 #include "PipesManager.hpp"
 #include "StageManager.hpp"
 #include "Surface.hpp"
+#include "Text.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
 
@@ -20,6 +22,7 @@ using namespace std;
 
 Game::Game(Application *const app)
     : Interface(app), controlManager(nullptr), actorManager(nullptr), stageManager(nullptr) {
+  this->score = 0;
 
   this->controlManager = new ControlManager();
   controlManager->addPeripheral(this->app->getKeyboard());
@@ -27,11 +30,7 @@ Game::Game(Application *const app)
   this->actorManager = new ActorManager();
   this->stageManager = new StageManager(actorManager);
 
-  PipesManager *pipesManager = new PipesManager();
-  pipesManager->setVelocityX(-WITH_SCALE(1));
-  this->actorManager->add(pipesManager);
-
-  Bird *bird = new Bird(WITH_SCALE(143 / 2), 400, this);
+  this->bird = new Bird(WITH_SCALE(143 / 2), 400, this);
   Control *controlBird = new Control();
   controlBird->setOwner(bird);
 
@@ -39,11 +38,22 @@ Game::Game(Application *const app)
   controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getKeyboard(),
                                    KeyboardKey::KEY_SPACE, Peripheral::ON_PRESS);
 
-  controlManager->addControl(controlBird);
-  actorManager->add(bird);
+  this->pipesManager = new PipesManager(this->bird);
+  pipesManager->setVelocityX(-WITH_SCALE(1));
+
+  this->actorManager->add(pipesManager);
+  this->controlManager->addControl(controlBird);
+  this->actorManager->add(bird);
 
   Surface *surface = new Surface(this);
   this->actorManager->add(surface);
+
+  this->textScore = new Text(Utils::FONT_SIZE::LARGE, WITH_SCALE(143 / 2), 100);
+  this->textScore->setText(to_string(this->score));
+
+  this->actorManager->add(this->textScore);
+
+  this->reinit();
 }
 
 void Game::draw() const {
@@ -55,13 +65,25 @@ void Game::update() {
   stageManager->update();
   controlManager->update();
   actorManager->update();
+
+  if (this->pipesManager->hasBirdPassedPipe()) {
+    this->score++;
+    this->textScore->setText(to_string(this->score));
+  }
+
+  DrawFPS(10, 10);
 }
 
 void Game::doAction(action_t action, int magnitute) {}
 
-void Game::reinit(){};
+void Game::reinit() {
+  this->score = 0;
+  this->textScore->setText(to_string(this->score));
+};
 
-void Game::over(){};
+void Game::over(){
+
+};
 
 Game::~Game() {
   delete this->controlManager;

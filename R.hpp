@@ -18,7 +18,7 @@ public:
 
   enum TextureIds { FLAPPY_SPRITES = 1 };
 
-  enum FontIds { ART = 1 };
+  enum FontIds { FLAPPY_FONT = 1 };
 
   Texture2D getTexture(const TextureIds &textureId) const;
   Font getFont(const FontIds &fontId) const;

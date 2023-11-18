@@ -5,15 +5,19 @@
 #include <vector>
 
 #include "Actor.hpp"
+#include "Bird.hpp"
 #include "Game.hpp"
 #include "Pipe.hpp"
 #include "Sprite.hpp"
 
 using namespace std;
 
+class Bird;
+class Pipe;
+
 class PipesManager : public Actor {
 public:
-  PipesManager();
+  PipesManager(Bird *bird);
 
   virtual void draw() const override;
   virtual void update() override;
@@ -21,9 +25,12 @@ public:
   void resetPipes();
   void setVelocityX(const float &velocity);
 
+  bool hasBirdPassedPipe();
+  bool hasBirdCollided() const;
+
 private:
   vector<Pipe *> pipes;
-
+  Bird *bird;
   float velocityX;
   float distanceBetweenPipes;
 };

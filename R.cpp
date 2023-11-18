@@ -22,7 +22,6 @@ R &R::getSingleton() {
 }
 
 void R::loadResources() {
-  // Change scale in withScale at Util.hpp
   this->textures.insert(
       {R::TextureIds::FLAPPY_SPRITES, LoadTexture("resources/flappy-bird_x4.png")});
 }

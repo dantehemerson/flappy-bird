@@ -13,8 +13,14 @@ public:
   virtual void draw() const override;
   virtual void update() override;
 
+  void setHasPassedBird(const bool &hasPassedBird);
+
+  float getWidth() const;
+  bool hasPassedBird() const;
+
 private:
   void initializeSprites();
+  bool _hasPassedBird;
 
   Sprite spritePipeTop;
   Sprite spritePipeBottom;
