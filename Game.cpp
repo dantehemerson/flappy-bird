@@ -13,6 +13,7 @@
 #include "PipesManager.hpp"
 #include "StageManager.hpp"
 #include "Surface.hpp"
+#include "Text.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
 
@@ -44,6 +45,10 @@ Game::Game(Application *const app)
 
   Surface *surface = new Surface(this);
   this->actorManager->add(surface);
+
+  Text *text = new Text(Utils::FONT_SIZE::LARGE, 100, 100);
+  this->actorManager->add(text);
+  text->setText("1234567890");
 }
 
 void Game::draw() const {
@@ -55,6 +60,8 @@ void Game::update() {
   stageManager->update();
   controlManager->update();
   actorManager->update();
+
+  DrawFPS(10, 10);
 }
 
 void Game::doAction(action_t action, int magnitute) {}

@@ -37,8 +37,6 @@ void PipesManager::update() {
   for (size_t i = 0; i < this->pipes.size(); i++) {
     this->pipes[i]->position.x += this->velocityX;
 
-    LogError << "y: " << this->pipes[i]->position.y << std::endl;
-
     bool outOfScreen = this->pipes[i]->position.x < -WITH_SCALE(30);
     if (outOfScreen) {
       size_t previousPipeIdx = i == 0 ? this->pipes.size() - 1 : i - 1;
