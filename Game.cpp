@@ -22,6 +22,7 @@ using namespace std;
 
 Game::Game(Application *const app)
     : Interface(app), controlManager(nullptr), actorManager(nullptr), stageManager(nullptr) {
+  this->score = 0;
 
   this->controlManager = new ControlManager();
   controlManager->addPeripheral(this->app->getKeyboard());
