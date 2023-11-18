@@ -52,3 +52,16 @@ void Pipe::setHasPassedBird(const bool &hasPassedBird) {
 bool Pipe::hasPassedBird() const {
   return this->_hasPassedBird;
 }
+
+bool Pipe::hasCollided(Bird *bird) {
+  // Add 100px to check collition when bird is too high
+  DrawRectangleLinesEx({this->position.x + WITH_SCALE(1), this->position.y - WITH_SCALE(200),
+                        this->spritePipeTop.getWidth(),
+                        this->spritePipeTop.getHeight() + WITH_SCALE(200)},
+                       1, RED);
+
+  DrawRectangleLinesEx({this->position.x + WITH_SCALE(1),
+                        this->position.y + this->spritePipeTop.getHeight() + WITH_SCALE(42),
+                        this->spritePipeBottom.getWidth(), this->spritePipeBottom.getHeight()},
+                       1, RED);
+}

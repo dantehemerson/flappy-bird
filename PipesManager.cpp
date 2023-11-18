@@ -67,5 +67,10 @@ bool PipesManager::hasBirdPassedPipe() {
 }
 
 bool PipesManager::hasBirdCollided() const {
+  for (auto &pipe : this->pipes) {
+    if (pipe->hasCollided(this->bird)) {
+      return false;
+    }
+  }
   return false;
 }
