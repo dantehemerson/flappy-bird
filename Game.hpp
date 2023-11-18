@@ -8,9 +8,12 @@
 #include "ControlManager.hpp"
 #include "ControllableObject.hpp"
 #include "Interface.hpp"
+#include "PipesManager.hpp"
 #include "StageManager.hpp"
+#include "Text.hpp"
 
 class ActorManager;
+class Text;
 
 class Game : public Interface, public ControllableObject {
 public:
@@ -29,6 +32,11 @@ private:
   ControlManager *controlManager;
   ActorManager *actorManager;
   StageManager *stageManager;
+
+  PipesManager *pipesManager;
+  Bird *bird;
+
+  Text *textScore;
 
   // Game states
   int score;

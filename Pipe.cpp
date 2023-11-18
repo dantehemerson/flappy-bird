@@ -8,6 +8,7 @@
 using namespace std;
 
 Pipe::Pipe() {
+  this->_hasPassedBird = false;
   this->initializeSprites();
 }
 
@@ -39,3 +40,15 @@ void Pipe::draw() const {
 }
 
 void Pipe::update() {}
+
+float Pipe::getWidth() const {
+  return WITH_SCALE(26);
+}
+
+void Pipe::setHasPassedBird(const bool &hasPassedBird) {
+  this->_hasPassedBird = hasPassedBird;
+}
+
+bool Pipe::hasPassedBird() const {
+  return this->_hasPassedBird;
+}

@@ -1,5 +1,6 @@
 #include <algorithm>
 
+#include "Bird.hpp"
 #include "Logger.h"
 #include "Pipe.hpp"
 #include "PipesManager.hpp"
@@ -8,7 +9,8 @@
 
 using namespace std;
 
-PipesManager::PipesManager() {
+PipesManager::PipesManager(Bird *bird) {
+  this->bird = bird;
   this->pipes.push_back(new Pipe());
   this->pipes.push_back(new Pipe());
   this->pipes.push_back(new Pipe());
@@ -43,10 +45,27 @@ void PipesManager::update() {
       this->pipes[i]->position.x =
           this->pipes[previousPipeIdx]->position.x + this->distanceBetweenPipes;
       this->pipes[i]->position.y = Utils::randomFloat(WITH_SCALE(-160), 0);
+      this->pipes[i]->setHasPassedBird(false);
     }
   }
 }
 
 void PipesManager::setVelocityX(const float &velocity) {
   this->velocityX = velocity;
+}
+
+bool PipesManager::hasBirdPassedPipe() {
+  for (auto &pipe : this->pipes) {
+    if (this->bird->position.x > pipe->position.x + (pipe->getWidth() / 2) &&
+        !pipe->hasPassedBird()) {
+      pipe->setHasPassedBird(true);
+      return true;
+    }
+  }
+
+  return false;
+}
+
+bool PipesManager::hasBirdCollided() const {
+  return false;
 }

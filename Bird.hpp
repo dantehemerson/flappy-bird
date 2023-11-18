@@ -7,6 +7,8 @@
 #include "Game.hpp"
 #include "Sprite.hpp"
 
+class Game;
+
 enum BirdActions { BIRD_ACTION_JUMP = 1 };
 
 class Bird : public ControllableActor {
