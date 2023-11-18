@@ -29,6 +29,9 @@ private:
   ControlManager *controlManager;
   ActorManager *actorManager;
   StageManager *stageManager;
+
+  // Game states
+  int score;
 };
 
 #endif // !GAME_HPP

@@ -17,11 +17,17 @@ public:
   virtual void draw() const override;
   virtual void update() override;
 
-  void setText(const string &text);
+  enum class TEXT_ALIGN { LEFT = 1, CENTER, RIGHT };
+
+  void setText(const string &text, const TEXT_ALIGN &align = TEXT_ALIGN::CENTER);
 
 private:
   Utils::FONT_SIZE size;
   string text;
+  float textWidth;
+  TEXT_ALIGN align;
+
+  float getInitialX() const;
 };
 
 #endif // !TEXT_HPP

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <vector>
 
 #include "ActorManager.hpp"
@@ -46,9 +47,12 @@ Game::Game(Application *const app)
   Surface *surface = new Surface(this);
   this->actorManager->add(surface);
 
-  Text *text = new Text(Utils::FONT_SIZE::LARGE, 100, 100);
+  Text *text = new Text(Utils::FONT_SIZE::LARGE, WITH_SCALE(143 / 2), 100);
   this->actorManager->add(text);
-  text->setText("1234567890");
+
+  text->setText(to_string(this->score));
+
+  this->reinit();
 }
 
 void Game::draw() const {
@@ -66,9 +70,13 @@ void Game::update() {
 
 void Game::doAction(action_t action, int magnitute) {}
 
-void Game::reinit(){};
+void Game::reinit() {
+  this->score = 0;
+};
 
-void Game::over(){};
+void Game::over(){
+
+};
 
 Game::~Game() {
   delete this->controlManager;
