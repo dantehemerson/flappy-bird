@@ -11,7 +11,7 @@ using namespace std;
 Application::Application() : exit(false) {
   this->settings = {.width = WITH_SCALE(143) + 800,
                     .height = WITH_SCALE(255),
-                    .fps = 60,
+                    .fps = 8,
                     .scale = 4,
                     .title = "Flappy Bird"};
 }

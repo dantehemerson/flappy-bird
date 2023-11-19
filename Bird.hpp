@@ -6,6 +6,7 @@
 #include "ControllableActor.hpp"
 #include "Game.hpp"
 #include "Sprite.hpp"
+#include "Utils.hpp"
 
 class Game;
 
@@ -20,6 +21,8 @@ public:
   virtual void draw() const override;
   virtual void update() override;
   virtual void doAction(action_t action, int magnitute) override;
+
+  EllipseRotated getEllipsis() const;
 
 private:
   void initializeSprites();

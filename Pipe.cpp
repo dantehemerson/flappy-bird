@@ -52,3 +52,47 @@ void Pipe::setHasPassedBird(const bool &hasPassedBird) {
 bool Pipe::hasPassedBird() const {
   return this->_hasPassedBird;
 }
+
+bool Pipe::hasCollided(Bird *bird) {
+  // Add -200px to check collition when bird is too high
+  Rectangle pipeTop{this->position.x + WITH_SCALE(1), this->position.y - WITH_SCALE(200),
+                    this->spritePipeTop.getWidth(),
+                    this->spritePipeTop.getHeight() + WITH_SCALE(200)};
+  Rectangle pipeBottom = {this->position.x + WITH_SCALE(1),
+                          this->position.y + this->spritePipeTop.getHeight() + WITH_SCALE(42),
+                          this->spritePipeBottom.getWidth(), this->spritePipeBottom.getHeight()};
+
+  EllipseRotated birdEllipse = bird->getEllipsis();
+
+  Vector2 closestPointTop = {
+      std::clamp(birdEllipse.x, pipeTop.x, pipeTop.x + pipeTop.width),
+      std::clamp(birdEllipse.y, pipeTop.y, pipeTop.y + pipeTop.height),
+  };
+
+  Vector2 closestPointBottom = {
+      std::clamp(birdEllipse.x, pipeBottom.x, pipeBottom.x + pipeBottom.width),
+      std::clamp(birdEllipse.y, pipeBottom.y, pipeBottom.y + pipeBottom.height),
+  };
+
+  if (Utils::isCollisionVectorEllipseRotated(closestPointTop, birdEllipse) ||
+      Utils::isCollisionVectorEllipseRotated(closestPointBottom, birdEllipse)) {
+#if BUILD_MODE == DEBUG
+    LogInfo << "Collision: true" << endl;
+#endif
+    // return true;
+  } else {
+#if BUILD_MODE == DEBUG
+    LogInfo << "Collision: ___" << endl;
+#endif
+  }
+
+#if BUILD_MODE == DEBUG
+  DrawLineV(closestPointTop, {birdEllipse.x, birdEllipse.y}, RED);
+  DrawLineV(closestPointBottom, {birdEllipse.x, birdEllipse.y}, RED);
+  DrawEllipseLines(birdEllipse.x, birdEllipse.y, birdEllipse.width, birdEllipse.height, WHITE);
+  DrawRectangleLinesEx(pipeTop, 1, RED);
+  DrawRectangleLinesEx(pipeBottom, 1, RED);
+#endif
+
+  return false;
+}

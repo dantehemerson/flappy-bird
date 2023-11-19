@@ -8,8 +8,13 @@ using namespace std;
 
 #define WITH_SCALE(value) (value * 4)
 
+struct EllipseRotated : public Rectangle {
+  float rotation;
+};
+
 namespace Utils {
   float randomFloat(const float &min, const float &max);
+  bool isCollisionVectorEllipseRotated(const Vector2 &point, const EllipseRotated &ellipse);
 
   enum FONT_SIZE { LARGE = 64 };
 

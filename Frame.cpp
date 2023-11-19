@@ -10,11 +10,14 @@ Frame::Frame(Actor *_owner, R::TextureIds _textureId, const Rectangle &_source, 
 void Frame::draw() const {
   Vector2 origin =
       this->center ? Vector2{this->getWidth() / 2, this->getHeight() / 2} : Vector2{0, 0};
+  float positionX =
+      this->center ? this->owner->position.x - this->getWidth() / 2 : this->owner->position.x;
+  float positionY =
+      this->center ? this->owner->position.y - this->getHeight() / 2 : this->owner->position.y;
 
   DrawTexturePro(R::getSingleton().getTexture(this->textureId), this->source,
-                 {this->owner->position.x + this->displacement.x,
-                  this->owner->position.y + this->displacement.y, this->getWidth(),
-                  this->getHeight()},
+                 {positionX + this->displacement.x, positionY + this->displacement.y,
+                  this->getWidth(), this->getHeight()},
                  origin, this->owner->rotation, WHITE);
 }
 

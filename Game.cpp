@@ -66,10 +66,14 @@ void Game::update() {
   controlManager->update();
   actorManager->update();
 
-  if (this->pipesManager->hasBirdPassedPipe()) {
+  if (this->pipesManager->hasBirdCollided()) {
+  } else if (this->pipesManager->hasBirdPassedPipe()) {
     this->score++;
     this->textScore->setText(to_string(this->score));
   }
+
+  DrawRectangleLinesEx({WITH_SCALE(35), WITH_SCALE(2), WITH_SCALE(90), WITH_SCALE(251)}, 1,
+                       VIOLET);
 
   DrawFPS(10, 10);
 }

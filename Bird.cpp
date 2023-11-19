@@ -21,6 +21,7 @@ Bird::Bird(const float &x, const float &y, Game *g) {
 void Bird::initializeSprites() {
   // Moving
   float birdFrameWidth = WITH_SCALE(17);
+  float birdFrameHeight = WITH_SCALE(12);
   int ticks = 3;
   auto movingIndex = static_cast<size_t>(Bird::BirdState::STATE_MOVING);
   this->sprites[movingIndex].setOwner(this);
@@ -29,19 +30,19 @@ void Bird::initializeSprites() {
                                               {.x = WITH_SCALE(3),
                                                .y = WITH_SCALE(491),
                                                .width = birdFrameWidth,
-                                               .height = birdFrameWidth},
+                                               .height = birdFrameHeight},
                                               ticks);
   this->sprites[movingIndex].addFrameCentered(R::TextureIds::FLAPPY_SPRITES,
                                               Rectangle{.x = WITH_SCALE(31),
                                                         .y = WITH_SCALE(491),
                                                         .width = birdFrameWidth,
-                                                        .height = birdFrameWidth},
+                                                        .height = birdFrameHeight},
                                               ticks);
   this->sprites[movingIndex].addFrameCentered(R::TextureIds::FLAPPY_SPRITES,
                                               Rectangle{.x = WITH_SCALE(59),
                                                         .y = WITH_SCALE(491),
                                                         .width = birdFrameWidth,
-                                                        .height = birdFrameWidth},
+                                                        .height = birdFrameHeight},
                                               ticks);
 }
 
@@ -50,9 +51,6 @@ void Bird::draw() const {
 }
 
 void Bird::update() {
-  // LogInfo << this->position.x << " " << this->position.y << "      g: " << this->gravity
-  //         << "       v: " << this->velocity << endl;
-
   Sprite &activeSprite = this->sprites[static_cast<size_t>(this->state)];
 
   if (activeSprite.getBottom() < Globals::Constants::SURFACE_Y || this->velocity < 0) {
@@ -75,6 +73,21 @@ void Bird::update() {
   }
 
   activeSprite.update();
+}
+
+EllipseRotated Bird::getEllipsis() const {
+  static const float paddingWidth = WITH_SCALE(0.5f);
+  static const float paddingHeight = WITH_SCALE(0.5f);
+
+  return {this->position.x + paddingWidth - WITH_SCALE(0.5f) -
+              this->sprites[static_cast<size_t>(this->state)].getWidth() / 2,
+          this->position.y + paddingHeight - WITH_SCALE(0.5f) -
+              this->sprites[static_cast<size_t>(this->state)].getHeight() / 2,
+          this->sprites[static_cast<size_t>(this->state)].getWidth() / 2 - paddingWidth -
+              WITH_SCALE(1.0f),
+          this->sprites[static_cast<size_t>(this->state)].getHeight() / 2 - paddingHeight +
+              WITH_SCALE(0.5f),
+          this->rotation};
 }
 
 void Bird::doAction(action_t action, int magnitute) {

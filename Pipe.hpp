@@ -3,8 +3,11 @@
 #define PIPE_HPP
 
 #include "Actor.hpp"
+#include "Bird.hpp"
 #include "Game.hpp"
 #include "Sprite.hpp"
+
+class Bird;
 
 class Pipe : public Actor {
 public:
@@ -17,6 +20,7 @@ public:
 
   float getWidth() const;
   bool hasPassedBird() const;
+  bool hasCollided(Bird *bird);
 
 private:
   void initializeSprites();
