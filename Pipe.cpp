@@ -54,6 +54,7 @@ bool Pipe::hasPassedBird() const {
 }
 
 bool Pipe::hasCollided(Bird *bird) {
+  // Add -200px to check collition when bird is too high
   Rectangle pipeTop{this->position.x + WITH_SCALE(1), this->position.y - WITH_SCALE(200),
                     this->spritePipeTop.getWidth(),
                     this->spritePipeTop.getHeight() + WITH_SCALE(200)};
@@ -88,11 +89,8 @@ bool Pipe::hasCollided(Bird *bird) {
 #if BUILD_MODE == DEBUG
   DrawLineV(closestPointTop, {birdEllipse.x, birdEllipse.y}, RED);
   DrawLineV(closestPointBottom, {birdEllipse.x, birdEllipse.y}, RED);
-
   DrawEllipseLines(birdEllipse.x, birdEllipse.y, birdEllipse.width, birdEllipse.height, WHITE);
-  // Add 100px to check collition when bird is too high
   DrawRectangleLinesEx(pipeTop, 1, RED);
-
   DrawRectangleLinesEx(pipeBottom, 1, RED);
 #endif
 
