@@ -11,6 +11,21 @@ float Utils::randomFloat(const float &min, const float &max) {
   return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (max - min)));
 }
 
+bool Utils::isCollisionVectorEllipseRotated(const Vector2 &point, const EllipseRotated &ellipse) {
+  // Rotate the point back to the ellipse's local coordinate system
+  float rotatedX = std::cos(-ellipse.rotation * M_PI / 180.0f) * (point.x - ellipse.x) -
+                   std::sin(-ellipse.rotation * M_PI / 180.0f) * (point.y - ellipse.y);
+  float rotatedY = std::sin(-ellipse.rotation * M_PI / 180.0f) * (point.x - ellipse.x) +
+                   std::cos(-ellipse.rotation * M_PI / 180.0f) * (point.y - ellipse.y);
+
+  // Calculate the normalized distance between the rotated point and the ellipse
+  float normalizedX = rotatedX / ellipse.width;
+  float normalizedY = rotatedY / ellipse.height;
+
+  // Check if the normalized distance is within the ellipse
+  return (normalizedX * normalizedX + normalizedY * normalizedY) <= 1.0f;
+}
+
 std::unordered_map<Utils::FONT_SIZE, std::unordered_map<char, Rectangle>> Utils::fontSources = {
 
     {Utils::FONT_SIZE::LARGE,

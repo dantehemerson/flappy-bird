@@ -67,7 +67,6 @@ void Game::update() {
   actorManager->update();
 
   if (this->pipesManager->hasBirdCollided()) {
-    cout << "Hola" << endl;
   } else if (this->pipesManager->hasBirdPassedPipe()) {
     this->score++;
     this->textScore->setText(to_string(this->score));
