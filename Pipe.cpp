@@ -4,6 +4,7 @@
 #include "Pipe.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
+#include <rlgl.h>
 
 using namespace std;
 
@@ -89,7 +90,13 @@ bool Pipe::hasCollided(Bird *bird) {
 #if BUILD_MODE == DEBUG
   DrawLineV(closestPointTop, {birdEllipse.x, birdEllipse.y}, RED);
   DrawLineV(closestPointBottom, {birdEllipse.x, birdEllipse.y}, RED);
-  DrawEllipseLines(birdEllipse.x, birdEllipse.y, birdEllipse.width, birdEllipse.height, WHITE);
+
+  rlPushMatrix();
+  rlTranslatef(birdEllipse.x, birdEllipse.y, 0);
+  rlRotatef(birdEllipse.rotation, 0, 0, 1);
+  DrawEllipseLines(0, 0, birdEllipse.width, birdEllipse.height, RED);
+  rlPopMatrix();
+
   DrawRectangleLinesEx(pipeTop, 1, RED);
   DrawRectangleLinesEx(pipeBottom, 1, RED);
 #endif
