@@ -93,7 +93,10 @@ EllipseRotated Bird::getEllipsis() const {
 void Bird::doAction(action_t action, int magnitute) {
   switch (action) {
     case BirdActions::BIRD_ACTION_JUMP:
+      PlaySound(R::getSingleton().getSound(R::SoundId::WING));
       this->velocity = -WITH_SCALE(2.5);
       break;
   }
 }
+
+Bird::~Bird() {}

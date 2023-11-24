@@ -24,6 +24,8 @@ public:
 
   EllipseRotated getEllipsis() const;
 
+  ~Bird();
+
 private:
   void initializeSprites();
 

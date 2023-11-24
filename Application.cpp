@@ -11,13 +11,14 @@ using namespace std;
 Application::Application() : exit(false) {
   this->settings = {.width = WITH_SCALE(143) + 800,
                     .height = WITH_SCALE(255),
-                    .fps = 20,
+                    .fps = 60,
                     .scale = 4,
                     .title = "Flappy Bird"};
 }
 
 void Application::init(int argc, char **argv) {
   InitWindow(this->settings.width, this->settings.height, this->settings.title.c_str());
+  InitAudioDevice();
   SetTargetFPS(this->settings.fps);
 
   R::getSingleton().loadResources();
@@ -47,5 +48,6 @@ void Application::quit() {
 }
 
 Application::~Application() {
+  CloseAudioDevice();
   CloseWindow();
 }
