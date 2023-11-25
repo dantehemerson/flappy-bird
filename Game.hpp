@@ -7,6 +7,7 @@
 
 #include "ControlManager.hpp"
 #include "ControllableObject.hpp"
+#include "GetReadyScreen.hpp"
 #include "Interface.hpp"
 #include "PipesManager.hpp"
 #include "StageManager.hpp"
@@ -32,11 +33,12 @@ private:
   ControlManager *controlManager;
   ActorManager *actorManager;
   StageManager *stageManager;
-
   PipesManager *pipesManager;
+
   Bird *bird;
 
   Text *textScore;
+  GetReadyScreen *getReadyScreen;
 
   // Game states
   int score;

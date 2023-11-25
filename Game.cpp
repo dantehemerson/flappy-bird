@@ -8,6 +8,7 @@
 #include "Control.hpp"
 #include "ControlManager.hpp"
 #include "Game.hpp"
+#include "GetReadyScreen.hpp"
 #include "Keyboard.hpp"
 #include "Logger.h"
 #include "Pipe.hpp"
@@ -24,13 +25,15 @@ Game::Game(Application *const app)
     : Interface(app), controlManager(nullptr), actorManager(nullptr), stageManager(nullptr) {
   this->score = 0;
 
+  this->getReadyScreen = new GetReadyScreen();
+
   this->controlManager = new ControlManager();
   controlManager->addPeripheral(this->app->getKeyboard());
 
   this->actorManager = new ActorManager();
   this->stageManager = new StageManager(actorManager);
 
-  this->bird = new Bird(WITH_SCALE(143 / 2), 400, this);
+  this->bird = new Bird(WITH_SCALE(50), 400, this);
   Control *controlBird = new Control();
   controlBird->setOwner(bird);
 
@@ -72,6 +75,8 @@ void Game::update() {
     this->textScore->setText(to_string(this->score));
   }
 
+  this->getReadyScreen->draw();
+
   DrawRectangleLinesEx({WITH_SCALE(35), WITH_SCALE(2), WITH_SCALE(90), WITH_SCALE(251)}, 1,
                        VIOLET);
 
@@ -90,6 +95,7 @@ void Game::over(){
 };
 
 Game::~Game() {
+  delete this->getReadyScreen;
   delete this->controlManager;
   delete this->actorManager;
   delete this->stageManager;

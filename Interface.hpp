@@ -6,11 +6,12 @@ class Application;
 
 class Interface {
 public:
-	Interface(Application*const app);
-	virtual void draw() const = 0;
-	virtual void update();
+  Interface(Application *const app);
+  virtual void draw() const = 0;
+  virtual void update();
+
 protected:
-	Application* app;  // Puntero al único objeto
+  Application *app;
 };
 
 #endif // !INTERFACE_HPP

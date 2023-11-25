@@ -2,6 +2,8 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+#include <map>
+
 #include <raylib.h>
 
 using namespace std;
@@ -18,7 +20,7 @@ namespace Utils {
 
   enum FONT_SIZE { LARGE = 64 };
 
-  extern unordered_map<FONT_SIZE, unordered_map<char, Rectangle>> fontSources;
+  extern std::unordered_map<FONT_SIZE, unordered_map<char, Rectangle>> fontSources;
 } // namespace Utils
 
 #endif // !UTILS_HPP
