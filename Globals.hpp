@@ -11,8 +11,8 @@ namespace Globals {
   }
 
   namespace Settings {
-    static const int WIDTH = WITH_SCALE(143);
-    static const int HEIGHT = WITH_SCALE(125);
+    static const int WIDTH = WITH_SCALE(152);
+    static const int HEIGHT = WITH_SCALE(246);
   } // namespace Settings
 
 } // namespace Globals

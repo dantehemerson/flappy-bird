@@ -1,6 +1,7 @@
 #include <raylib.h>
 
 #include "Application.hpp"
+#include "Globals.hpp"
 #include "Keyboard.hpp"
 #include "Logger.h"
 #include "R.hpp"
@@ -9,8 +10,8 @@
 using namespace std;
 
 Application::Application() : exit(false) {
-  this->settings = {.width = WITH_SCALE(143), // + 800,
-                    .height = WITH_SCALE(255),
+  this->settings = {.width = Globals::Settings::WIDTH,
+                    .height = Globals::Settings::HEIGHT,
                     .fps = 60,
                     .scale = 4,
                     .title = "Flappy Bird"};

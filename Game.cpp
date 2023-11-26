@@ -9,6 +9,7 @@
 #include "ControlManager.hpp"
 #include "Game.hpp"
 #include "GetReadyScreen.hpp"
+#include "Globals.hpp"
 #include "Keyboard.hpp"
 #include "Logger.h"
 #include "Pipe.hpp"
@@ -33,7 +34,7 @@ Game::Game(Application *const app)
   this->actorManager = new ActorManager();
   this->stageManager = new StageManager(actorManager);
 
-  this->bird = new Bird(WITH_SCALE(50), WITH_SCALE(116), this);
+  this->bird = new Bird(WITH_SCALE(50), WITH_SCALE(126), this);
   this->bird->setState(Bird::BirdState::STATE_IDLE);
 
   Control *controlBird = new Control();
@@ -46,14 +47,14 @@ Game::Game(Application *const app)
   this->pipesManager = new PipesManager(this->bird);
   pipesManager->setVelocityX(-WITH_SCALE(1));
 
-  // this->actorManager->add(pipesManager);
+  this->actorManager->add(pipesManager);
   this->controlManager->addControl(controlBird);
   this->actorManager->add(bird);
 
   Surface *surface = new Surface(this);
   this->actorManager->add(surface);
 
-  this->textScore = new Text(Utils::FONT_SIZE::LARGE, WITH_SCALE(143 / 2), 100);
+  this->textScore = new Text(Utils::FONT_SIZE::LARGE, Globals::Settings::WIDTH / 2, 80);
   this->textScore->setText(to_string(this->score));
 
   this->actorManager->add(this->textScore);
@@ -62,8 +63,12 @@ Game::Game(Application *const app)
 }
 
 void Game::draw() const {
+  // Background:
   DrawTextureRec(R::getSingleton().getTexture(R::TextureIds::FLAPPY_SPRITES),
                  {0, 0, WITH_SCALE(143), WITH_SCALE(255)}, {0, 0}, WHITE);
+  DrawTextureRec(R::getSingleton().getTexture(R::TextureIds::FLAPPY_SPRITES),
+                 {WITH_SCALE(0), 0, WITH_SCALE(143), WITH_SCALE(255)}, {WITH_SCALE(143), 0},
+                 WHITE);
 }
 
 void Game::update() {

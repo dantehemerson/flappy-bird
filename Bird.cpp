@@ -146,6 +146,12 @@ void Bird::setState(BirdState state) {
 void Bird::doAction(action_t action, int magnitute) {
   switch (action) {
     case BirdActions::BIRD_ACTION_JUMP:
+      if (this->state == Bird::BirdState::STATE_IDLE) {
+        this->setState(Bird::BirdState::STATE_MOVING);
+        this->velocity = 0;
+        this->gravity = 0.44;
+      }
+
       PlaySound(R::getSingleton().getSound(R::SoundId::WING));
       this->velocity = -WITH_SCALE(2.5);
       break;
