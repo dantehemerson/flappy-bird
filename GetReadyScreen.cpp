@@ -6,7 +6,7 @@
 #include <raylib.h>
 
 GetReadyScreen::GetReadyScreen() {
-  this->setState(State::SHOW);
+  this->setState(State::HIDDEN);
 }
 
 void GetReadyScreen::draw() const {

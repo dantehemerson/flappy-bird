@@ -7,6 +7,7 @@
 #include "Bird.hpp"
 #include "Control.hpp"
 #include "ControlManager.hpp"
+#include "FinishScreen.hpp"
 #include "Game.hpp"
 #include "GetReadyScreen.hpp"
 #include "Globals.hpp"
@@ -27,7 +28,9 @@ Game::Game(Application *const app)
       getReadyScreen(nullptr) {
   this->score = 0;
 
+  // Screens
   this->getReadyScreen = new GetReadyScreen();
+  this->finishScreen = new FinishScreen(this);
 
   this->controlManager = new ControlManager();
   controlManager->addPeripheral(this->app->getKeyboard());
@@ -59,6 +62,7 @@ Game::Game(Application *const app)
   this->textScore->setText(to_string(this->score));
 
   this->actorManager->add(this->textScore);
+  this->actorManager->add(this->finishScreen);
 
   this->reinit();
 }

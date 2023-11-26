@@ -7,6 +7,7 @@
 
 #include "ControlManager.hpp"
 #include "ControllableObject.hpp"
+#include "FinishScreen.hpp"
 #include "GetReadyScreen.hpp"
 #include "Interface.hpp"
 #include "PipesManager.hpp"
@@ -15,6 +16,7 @@
 
 class ActorManager;
 class Text;
+class FinishScreen;
 
 class Game : public Interface, public ControllableObject {
 public:
@@ -46,6 +48,7 @@ private:
 
   Text *textScore;
   GetReadyScreen *getReadyScreen;
+  FinishScreen *finishScreen;
 
   // Game states
   int score;
