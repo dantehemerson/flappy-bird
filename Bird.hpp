@@ -22,6 +22,8 @@ public:
   virtual void update() override;
   virtual void doAction(action_t action, int magnitute) override;
 
+  void setState(BirdState state);
+
   EllipseRotated getEllipsis() const;
 
   ~Bird();

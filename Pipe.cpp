@@ -78,12 +78,12 @@ bool Pipe::hasCollided(Bird *bird) {
   if (Utils::isCollisionVectorEllipseRotated(closestPointTop, birdEllipse) ||
       Utils::isCollisionVectorEllipseRotated(closestPointBottom, birdEllipse)) {
 #if BUILD_MODE == DEBUG
-    LogInfo << "Collision: true" << endl;
+    // LogInfo << "Collision: true" << endl;
 #endif
     // return true;
   } else {
 #if BUILD_MODE == DEBUG
-    LogInfo << "Collision: ___" << endl;
+    // LogInfo << "Collision: ___" << endl;
 #endif
   }
 

@@ -33,7 +33,9 @@ Game::Game(Application *const app)
   this->actorManager = new ActorManager();
   this->stageManager = new StageManager(actorManager);
 
-  this->bird = new Bird(WITH_SCALE(50), 400, this);
+  this->bird = new Bird(WITH_SCALE(50), WITH_SCALE(116), this);
+  this->bird->setState(Bird::BirdState::STATE_IDLE);
+
   Control *controlBird = new Control();
   controlBird->setOwner(bird);
 
@@ -44,7 +46,7 @@ Game::Game(Application *const app)
   this->pipesManager = new PipesManager(this->bird);
   pipesManager->setVelocityX(-WITH_SCALE(1));
 
-  this->actorManager->add(pipesManager);
+  // this->actorManager->add(pipesManager);
   this->controlManager->addControl(controlBird);
   this->actorManager->add(bird);
 
