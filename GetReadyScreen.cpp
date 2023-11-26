@@ -1,11 +1,13 @@
 #include "GetReadyScreen.hpp"
-
 #include "Globals.hpp"
+#include "Logger.h"
 #include "R.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
 
-GetReadyScreen::GetReadyScreen() {}
+GetReadyScreen::GetReadyScreen() {
+  this->setState(State::SHOW);
+}
 
 void GetReadyScreen::draw() const {
   static const float topY = WITH_SCALE(50);
@@ -13,14 +15,41 @@ void GetReadyScreen::draw() const {
   // Get Ready
   DrawTextureRec(R::getSingleton().getTexture(R::TextureIds::FLAPPY_SPRITES),
                  {WITH_SCALE(295), WITH_SCALE(59), WITH_SCALE(92), WITH_SCALE(25)},
-                 {Globals::Settings::WIDTH / 2 - WITH_SCALE(92) / 2, topY}, WHITE);
+                 {Globals::Settings::WIDTH / 2 - WITH_SCALE(92) / 2, topY},
+                 CLITERAL(Color){255, 255, 255,
+                                 static_cast<unsigned char>(static_cast<int>(this->opacity))});
 
   // Tap
   DrawTextureRec(R::getSingleton().getTexture(R::TextureIds::FLAPPY_SPRITES),
 
                  {WITH_SCALE(292), WITH_SCALE(91), WITH_SCALE(57), WITH_SCALE(49)},
                  {Globals::Settings::WIDTH / 2 - WITH_SCALE(57) / 2, topY + WITH_SCALE(50)},
-                 WHITE);
+                 CLITERAL(Color){255, 255, 255,
+                                 static_cast<unsigned char>(static_cast<int>(this->opacity))});
 }
 
-void GetReadyScreen::update() {}
+void GetReadyScreen::update() {
+  if (this->state == State::HIDDING) {
+    this->opacity -= 7;
+
+    if (this->opacity <= 0) {
+      this->setState(State::HIDDEN);
+    }
+  }
+}
+
+void GetReadyScreen::setState(State state) {
+  this->state = state;
+
+  switch (state) {
+    case State::SHOW:
+      this->opacity = 255;
+      break;
+    case State::HIDDING:
+      this->opacity = 255;
+      break;
+    case State::HIDDEN:
+      this->opacity = 0;
+      break;
+  }
+}

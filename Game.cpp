@@ -23,7 +23,8 @@
 using namespace std;
 
 Game::Game(Application *const app)
-    : Interface(app), controlManager(nullptr), actorManager(nullptr), stageManager(nullptr) {
+    : Interface(app), controlManager(nullptr), actorManager(nullptr), stageManager(nullptr),
+      getReadyScreen(nullptr) {
   this->score = 0;
 
   this->getReadyScreen = new GetReadyScreen();
@@ -72,9 +73,10 @@ void Game::draw() const {
 }
 
 void Game::update() {
-  stageManager->update();
-  controlManager->update();
-  actorManager->update();
+  this->stageManager->update();
+  this->controlManager->update();
+  this->actorManager->update();
+  this->getReadyScreen->update();
 
   if (this->pipesManager->hasBirdCollided()) {
   } else if (this->pipesManager->hasBirdPassedPipe()) {
@@ -91,6 +93,18 @@ void Game::update() {
 }
 
 void Game::doAction(action_t action, int magnitute) {}
+
+void Game::execute(GameActions action) {
+
+  switch (action) {
+    case GameActions::HIDE_GET_READY_SCREEN:
+      this->getReadyScreen->setState(GetReadyScreen::State::HIDDING);
+      break;
+
+    default:
+      break;
+  }
+}
 
 void Game::reinit() {
   this->score = 0;

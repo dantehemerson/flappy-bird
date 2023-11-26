@@ -10,6 +10,7 @@
 using namespace std;
 
 Bird::Bird(const float &x, const float &y, Game *g) {
+  this->game = g;
   this->position = {x, y};
   this->gravity = 0.44;
   this->velocity = 0;
@@ -146,10 +147,12 @@ void Bird::setState(BirdState state) {
 void Bird::doAction(action_t action, int magnitute) {
   switch (action) {
     case BirdActions::BIRD_ACTION_JUMP:
+
       if (this->state == Bird::BirdState::STATE_IDLE) {
         this->setState(Bird::BirdState::STATE_MOVING);
         this->velocity = 0;
         this->gravity = 0.44;
+        this->game->execute(Game::GameActions::HIDE_GET_READY_SCREEN);
       }
 
       PlaySound(R::getSingleton().getSound(R::SoundId::WING));

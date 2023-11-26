@@ -22,7 +22,14 @@ public:
 
   virtual void draw() const override;
   virtual void update() override;
-  virtual void doAction(action_t action, int magnitute) override;
+
+  enum class GameActions {
+    HIDE_GET_READY_SCREEN = 639,
+  };
+
+  virtual void doAction(action_t action, int magnitute = 0) override;
+
+  void execute(GameActions action);
 
   void reinit();
   void over();
