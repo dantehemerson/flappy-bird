@@ -27,7 +27,7 @@ void PipesManager::draw() const {
 
 void PipesManager::resetPipes() {
   this->distanceBetweenPipes = WITH_SCALE(90);
-  this->pipes[0]->position.x = WITH_SCALE(100);
+  this->pipes[0]->position.x = WITH_SCALE(500);
 
   for (size_t i = 1; i < this->pipes.size(); i++) {
     this->pipes[i]->position.x = this->pipes[i - 1]->position.x + this->distanceBetweenPipes;

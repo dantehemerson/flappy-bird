@@ -86,9 +86,6 @@ void Game::update() {
 
   this->getReadyScreen->draw();
 
-  DrawRectangleLinesEx({WITH_SCALE(35), WITH_SCALE(2), WITH_SCALE(90), WITH_SCALE(251)}, 1,
-                       VIOLET);
-
   DrawFPS(10, 10);
 }
 
