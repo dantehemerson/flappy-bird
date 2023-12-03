@@ -3,8 +3,10 @@
 
 #include "Actor.hpp"
 #include "Game.hpp"
+#include "Text.hpp"
 
 class Game;
+class Text;
 
 class FinishScreen : public Actor {
 public:
@@ -17,10 +19,14 @@ public:
 
   void setState(State state);
 
+  ~FinishScreen();
+
 private:
   Game *game;
   State state;
   float opacity;
+
+  Text *gameOverText;
 };
 
 #endif // !FINISH_SCREEN_HPP

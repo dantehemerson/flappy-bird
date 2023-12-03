@@ -7,6 +7,7 @@
 
 FinishScreen::FinishScreen(Game *g) : game(g) {
   this->setState(State::SHOW);
+  this->gameOverText = new Text(Utils::FONT_SIZE::LARGE, WITH_SCALE(84), WITH_SCALE(100));
 }
 
 void FinishScreen::draw() const {
@@ -26,6 +27,8 @@ void FinishScreen::draw() const {
                  CLITERAL(Color){255, 255, 255,
                                  static_cast<unsigned char>(static_cast<int>(this->opacity))});
 
+  this->gameOverText->draw();
+
   // Play Green Button
   DrawTextureRec(R::getSingleton().getTexture(R::TextureIds::FLAPPY_SPRITES),
                  {WITH_SCALE(354), WITH_SCALE(118), WITH_SCALE(52), WITH_SCALE(34)},
@@ -34,7 +37,9 @@ void FinishScreen::draw() const {
                                  static_cast<unsigned char>(static_cast<int>(this->opacity))});
 }
 
-void FinishScreen::update() {}
+void FinishScreen::update() {
+  this->gameOverText->setText("999999");
+}
 
 void FinishScreen::setState(State state) {
   this->state = state;
@@ -50,4 +55,8 @@ void FinishScreen::setState(State state) {
       this->opacity = 0;
       break;
   }
+}
+
+FinishScreen::~FinishScreen() {
+  delete this->gameOverText;
 }
