@@ -27,8 +27,7 @@ bool Utils::isCollisionVectorEllipseRotated(const Vector2 &point, const EllipseR
 }
 
 std::unordered_map<Utils::FONT_SIZE, std::unordered_map<char, Rectangle>> Utils::fontSources = {
-
-    {Utils::FONT_SIZE::LARGE,
+    {Utils::FONT_SIZE::SMALL,
      {
          {'0', {WITH_SCALE(496), WITH_SCALE(60), WITH_SCALE(12), WITH_SCALE(18)}},
          {'1', {WITH_SCALE(132), WITH_SCALE(455), WITH_SCALE(12), WITH_SCALE(18)}},

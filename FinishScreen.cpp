@@ -35,10 +35,12 @@ void FinishScreen::draw() const {
                  {Globals::Settings::WIDTH / 2 - WITH_SCALE(52) / 2, topY + WITH_SCALE(120)},
                  CLITERAL(Color){255, 255, 255,
                                  static_cast<unsigned char>(static_cast<int>(this->opacity))});
+
+  // More time but bofore that not could not crease solution
 }
 
 void FinishScreen::update() {
-  this->gameOverText->setText("999999");
+  this->gameOverText->setText("1234567890");
 }
 
 void FinishScreen::setState(State state) {
