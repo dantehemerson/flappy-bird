@@ -1,9 +1,5 @@
-#include <iostream>
-
 #include "Keyboard.hpp"
 #include <raylib.h>
-
-using namespace std;
 
 Keyboard::Keyboard() {}
 

@@ -9,11 +9,11 @@
 #include "Game.hpp"
 #include "GetReadyScreen.hpp"
 #include "Globals.hpp"
+#include "HiddenText.hpp"
 #include "Pipe.hpp"
 #include "PipesManager.hpp"
 #include "StageManager.hpp"
 #include "Surface.hpp"
-#include "Text.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
 
@@ -32,8 +32,9 @@ Game::Game(Application *const app)
   controlFinishScreen->setOwner(this->finishScreen);
 
   controlFinishScreen->addActionName(FinishScreen::Actions::PLAY_AGAIN, "Play again");
-  controlFinishScreen->setActionPeripheral(FinishScreen::Actions::PLAY_AGAIN, this->app->getKeyboard(),
-                                   KeyboardKey::KEY_SPACE, Peripheral::ON_PRESS);
+  controlFinishScreen->setActionPeripheral(FinishScreen::Actions::PLAY_AGAIN,
+                                           this->app->getKeyboard(), KeyboardKey::KEY_SPACE,
+                                           Peripheral::ON_PRESS);
 
   this->controlManager = new ControlManager();
   controlManager->addPeripheral(this->app->getKeyboard());
@@ -51,8 +52,6 @@ Game::Game(Application *const app)
   controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getKeyboard(),
                                    KeyboardKey::KEY_SPACE, Peripheral::ON_PRESS);
 
-
-
   this->pipesManager = new PipesManager(this->bird);
   pipesManager->setVelocityX(-WITH_SCALE(1));
 
@@ -66,7 +65,7 @@ Game::Game(Application *const app)
 
   this->actorManager->add(bird);
 
-  this->textScore = new Text(Utils::FONT_SIZE::LARGE, Globals::Settings::WIDTH / 2.0, 80);
+  this->textScore = new HiddenText(Utils::FONT_SIZE::LARGE, Globals::Settings::WIDTH / 2.0, 80);
   this->textScore->setText(to_string(this->score));
 
   this->actorManager->add(this->textScore);
@@ -83,8 +82,6 @@ void Game::draw() const {
   DrawTextureRec(R::getSingleton().getTexture(R::TextureIds::FLAPPY_SPRITES),
                  {WITH_SCALE(0), 0, WITH_SCALE(143), WITH_SCALE(255)}, {WITH_SCALE(143), 0},
                  WHITE);
-
-  DrawLine(0, Globals::Constants::SURFACE_Y, WITH_SCALE(143), Globals::Constants::SURFACE_Y, RED);
 }
 
 void Game::update() {
@@ -92,15 +89,20 @@ void Game::update() {
   this->controlManager->update();
   this->actorManager->update();
 
-  if (this->pipesManager->hasBirdCollided()) { // TODO: Improve conditional performance here:
-    if (!this->bird->isDead())
-      this->execute(Game::GameActions::BIRD_DIED);
-  } else if (this->pipesManager->hasBirdPassedPipe()) {
-    this->score++;
-    this->textScore->setText(to_string(this->score));
+  if (!this->bird->isDead()) {
+    if (this->pipesManager->hasBirdCollided()) {
+      this->bird->setState(Bird::BirdState::DEAD_WITH_FALL);
+      this->execute(GameActions::BIRD_DIED);
+    } else if (this->pipesManager->hasBirdPassedPipe()) {
+      this->score++;
+      this->textScore->setText(to_string(this->score));
+      PlaySound(R::getSingleton().getSound(R::SoundId::POINT));
+    }
   }
 
+#if BUILD_MODE == DEBUG
   DrawFPS(10, 10);
+#endif
 }
 
 void Game::doAction(action_t action, int magnitute) {}
@@ -111,11 +113,14 @@ void Game::execute(GameActions action) {
       this->getReadyScreen->setState(GetReadyScreen::State::HIDDING);
       this->pipesManager->setState(PipesManager::PipesState::MOVING);
       break;
+
     case GameActions::BIRD_DIED:
       this->pipesManager->setState(PipesManager::PipesState::STOPPED);
       this->surface->setState(Surface::SurfaceState::STOPPED);
-      this->finishScreen->setState(FinishScreen::State::SHOW);
-      this->bird->setState(Bird::BirdState::DEAD_WITH_FALL);
+      this->finishScreen->setScore(this->score);
+      this->finishScreen->setBestScore(9999);
+      this->finishScreen->setState(FinishScreen::State::START_SHOWING);
+      this->textScore->hide();
       break;
 
     case GameActions::PLAY_AGAIN:
@@ -129,6 +134,7 @@ void Game::execute(GameActions action) {
 void Game::reinit() {
   this->score = 0;
   this->textScore->setText(to_string(this->score));
+  this->textScore->show();
   this->bird->setState(Bird::BirdState::STATE_IDLE);
   this->bird->position = {WITH_SCALE(50), WITH_SCALE(126)};
   this->finishScreen->setState(FinishScreen::State::HIDDEN);
@@ -143,7 +149,6 @@ void Game::over() {
 };
 
 Game::~Game() {
-  delete this->getReadyScreen;
   delete this->controlManager;
   delete this->actorManager;
   delete this->stageManager;

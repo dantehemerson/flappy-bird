@@ -10,10 +10,10 @@
 #include "Interface.hpp"
 #include "PipesManager.hpp"
 #include "StageManager.hpp"
-#include "Text.hpp"
 
 class ActorManager;
 class Text;
+class HiddenText;
 class FinishScreen;
 class Surface;
 
@@ -50,11 +50,10 @@ private:
 
   Bird *bird;
 
-  Text *textScore;
+  HiddenText *textScore;
   GetReadyScreen *getReadyScreen;
   FinishScreen *finishScreen;
 
-  // Game states
   int score;
 };
 

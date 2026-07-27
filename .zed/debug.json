@@ -1,0 +1,13 @@
+[
+  {
+    "label": "Debug native binary",
+    "build": {
+      "command": "make",
+      "args": ["-j8", "PROJECT_NAME=main", "BUILD_MODE=debug"],
+      "cwd": "$ZED_WORKTREE_ROOT"
+    },
+    "program": "$ZED_WORKTREE_ROOT/main",
+    "request": "launch",
+    "adapter": "CodeLLDB"
+  }
+]

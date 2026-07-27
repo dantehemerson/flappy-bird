@@ -32,7 +32,7 @@ void Pipe::initializeSprites() {
                  .width = WITH_SCALE(26),
                  .height = WITH_SCALE(160)},
                 60)
-      .setDisplacementY(this->spritePipeTop.getHeight() + Globals::Constants::PIPES_GAP);
+      .setDisplacementY(this->spritePipeTop.getHeight() + Globals::Constants::PIPES_VERTICAL_GAP);
 }
 
 void Pipe::draw() const {
@@ -60,7 +60,7 @@ bool Pipe::hasCollided(Bird *bird) {
                     this->spritePipeTop.getWidth(),
                     this->spritePipeTop.getHeight() + WITH_SCALE(200)};
   Rectangle pipeBottom = {this->position.x + WITH_SCALE(1),
-                          this->position.y + this->spritePipeTop.getHeight() + Globals::Constants::PIPES_GAP,
+                          this->position.y + this->spritePipeTop.getHeight() + Globals::Constants::PIPES_VERTICAL_GAP,
                           this->spritePipeBottom.getWidth(), this->spritePipeBottom.getHeight()};
 
   EllipseRotated birdEllipse = bird->getEllipsis();
@@ -80,19 +80,19 @@ bool Pipe::hasCollided(Bird *bird) {
     return true;
   }
 
-#if BUILD_MODE == DEBUG
-  DrawLineV(closestPointTop, {birdEllipse.x, birdEllipse.y}, RED);
-  DrawLineV(closestPointBottom, {birdEllipse.x, birdEllipse.y}, RED);
+// #if BUILD_MODE == DEBUG
+//   DrawLineV(closestPointTop, {birdEllipse.x, birdEllipse.y}, RED);
+//   DrawLineV(closestPointBottom, {birdEllipse.x, birdEllipse.y}, RED);
 
-  rlPushMatrix();
-  rlTranslatef(birdEllipse.x, birdEllipse.y, 0);
-  rlRotatef(birdEllipse.rotation, 0, 0, 1);
-  DrawEllipseLines(0, 0, birdEllipse.width, birdEllipse.height, RED);
-  rlPopMatrix();
+//   rlPushMatrix();
+//   rlTranslatef(birdEllipse.x, birdEllipse.y, 0);
+//   rlRotatef(birdEllipse.rotation, 0, 0, 1);
+//   DrawEllipseLines(0, 0, birdEllipse.width, birdEllipse.height, RED);
+//   rlPopMatrix();
 
-  DrawRectangleLinesEx(pipeTop, 1, RED);
-  DrawRectangleLinesEx(pipeBottom, 1, RED);
-#endif
+//   DrawRectangleLinesEx(pipeTop, 1, RED);
+//   DrawRectangleLinesEx(pipeBottom, 1, RED);
+// #endif
 
   return false;
 }

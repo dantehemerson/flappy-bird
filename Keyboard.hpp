@@ -8,8 +8,6 @@
 
 #define MAX_KEY KEY_KB_MENU
 
-using namespace std;
-
 class Keyboard : public Peripheral {
 public:
   Keyboard();

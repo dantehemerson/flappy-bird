@@ -2,7 +2,7 @@
 
 #include "Bird.hpp"
 #include "Globals.hpp"
-#include "Logger.h"
+#include "R.hpp"
 #include "Sprite.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
@@ -79,6 +79,16 @@ void Bird::initializeSprites() {
                                                       .width = birdFrameWidth,
                                                       .height = birdFrameHeight},
                                             ticks);
+  ticks = 3;
+  auto deadWithFallIndex = static_cast<size_t>(BirdState::DEAD_WITH_FALL);
+  this->sprites[deadWithFallIndex].setOwner(this);
+  this->sprites[deadWithFallIndex].setRepeat(false);
+  this->sprites[deadWithFallIndex].addFrameCentered(R::TextureIds::FLAPPY_SPRITES,
+                                                    Rectangle{.x = WITH_SCALE(31),
+                                                              .y = WITH_SCALE(491),
+                                                              .width = birdFrameWidth,
+                                                              .height = birdFrameHeight},
+                                                    ticks);
 }
 
 void Bird::draw() const {
@@ -90,6 +100,7 @@ void Bird::update() {
 
   switch (this->state) {
     case BirdState::STATE_MOVING:
+    case BirdState::DEAD_WITH_FALL:
       if (activeSprite.getBottom() < Globals::Constants::SURFACE_Y || this->velocity < 0) {
         this->velocity += this->gravity;
         this->position.y += velocity;
@@ -104,7 +115,6 @@ void Bird::update() {
       if (activeSprite.getBottom() >= Globals::Constants::SURFACE_Y) { // Die
         this->position.y = Globals::Constants::SURFACE_Y;
         this->setState(BirdState::STATE_DEAD);
-        this->game->execute(Game::GameActions::BIRD_DIED);
 
       } else if (this->position.y < WITH_SCALE(-70)) { // Avoid going too high. Set a roof.
         this->position.y = WITH_SCALE(-70);
@@ -159,7 +169,11 @@ void Bird::setState(BirdState state) {
       break;
 
     case Bird::BirdState::STATE_DEAD:
-      PlaySound(R::getSingleton().getSound(R::SoundId::HIT));
+      if (this->state != Bird::BirdState::DEAD_WITH_FALL) {
+        PlaySound(R::getSingleton().getSound(R::SoundId::HIT));
+        this->game->execute(Game::GameActions::BIRD_DIED);
+      }
+
       break;
 
     case Bird::BirdState::DEAD_WITH_FALL:
@@ -171,10 +185,7 @@ void Bird::setState(BirdState state) {
       break;
   }
 
-  if (state == BirdState::DEAD_WITH_FALL)
-    this->state = BirdState::STATE_DEAD;
-  else
-    this->state = state;
+  this->state = state;
 }
 
 bool Bird::isDead() const {
@@ -184,7 +195,7 @@ bool Bird::isDead() const {
 void Bird::doAction(action_t action, int magnitute) {
   switch (action) {
     case BirdActions::BIRD_ACTION_JUMP:
-      if (this->state == BirdState::STATE_DEAD)
+      if (this->state == BirdState::STATE_DEAD || this->state == BirdState::DEAD_WITH_FALL)
         return;
 
       if (this->state == BirdState::STATE_IDLE) {

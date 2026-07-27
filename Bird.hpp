@@ -2,6 +2,8 @@
 #ifndef BIRD_HPP
 #define BIRD_HPP
 
+#include <array>
+
 #include "ControllableActor.hpp"
 #include "Game.hpp"
 #include "Sprite.hpp"
@@ -15,7 +17,7 @@ class Bird : public ControllableActor {
 public:
   Bird(const float &x, const float &y, Game *g);
 
-  enum class BirdState : size_t { STATE_IDLE = 1, STATE_MOVING, STATE_DEAD, DEAD_WITH_FALL };
+  enum class BirdState { STATE_IDLE = 1, STATE_MOVING, STATE_DEAD, DEAD_WITH_FALL };
 
   virtual void draw() const override;
   virtual void update() override;
@@ -34,7 +36,7 @@ private:
 
   Game *game;
   BirdState state;
-  array<Sprite, 13> sprites;
+  std::array<Sprite, 13> sprites;
   float velocity;
   float gravity;
 };

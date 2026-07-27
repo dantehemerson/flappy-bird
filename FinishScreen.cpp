@@ -8,10 +8,11 @@
 #include <cstddef>
 #include <optional>
 #include <raylib.h>
+#include <string>
 
 FinishScreen::FinishScreen(Game *g) : game(g) {
   this->setState(State::HIDDEN);
-  this->gameOverText =
+  this->scoreText =
       new Text(Utils::FONT_SIZE::SMALL, WITH_SCALE(121.5), WITH_SCALE(100), TEXT_ALIGN::RIGHT);
   this->bestScoreText =
       new Text(Utils::FONT_SIZE::SMALL, WITH_SCALE(121.5), WITH_SCALE(121), TEXT_ALIGN::RIGHT);
@@ -38,16 +39,17 @@ void FinishScreen::draw() const {
                  CLITERAL(Color){255, 255, 255,
                                  static_cast<unsigned char>(static_cast<int>(this->opacity))});
 
-  this->drawMedal(29);
-  this->gameOverText->draw();
+  this->drawMedal(this->score);
+  this->scoreText->draw();
   this->bestScoreText->draw();
 
-  // Play Green Button
+  // Play Again Button
   DrawTextureRec(R::getSingleton().getTexture(R::TextureIds::FLAPPY_SPRITES),
                  {WITH_SCALE(354), WITH_SCALE(118), WITH_SCALE(52), WITH_SCALE(34)},
                  {Globals::Settings::WIDTH / 2.0 - WITH_SCALE(52) / 2.0, topY + WITH_SCALE(120)},
-                 CLITERAL(Color){255, 255, 255,
-                                 static_cast<unsigned char>(static_cast<int>(this->opacity))});
+                 CLITERAL(Color){
+                     255, 255, 255,
+                     static_cast<unsigned char>(static_cast<int>(this->playAgainButtonOpacity))});
 }
 
 void FinishScreen::drawMedal(int score) const {
@@ -84,15 +86,39 @@ void FinishScreen::doAction(action_t action, int magnitute) {
 }
 
 void FinishScreen::update() {
-  this->gameOverText->setText("1234567890");
+  if (this->state == State::START_SHOWING) {
+    this->timer += GetFrameTime();
+
+    this->opacity += (255 / 0.3f) * GetFrameTime();
+
+    if (this->opacity >= 255) {
+      this->opacity = 255;
+    }
+
+    if (this->timer > 0.3f) {
+      this->playAgainButtonOpacity += (255 / 0.3f) * GetFrameTime();
+
+      if (this->playAgainButtonOpacity >= 255) {
+        this->playAgainButtonOpacity = 255;
+      }
+    }
+
+    if (this->timer > 0.6f) {
+      this->setState(State::SHOW);
+    }
+  }
 }
 
 void FinishScreen::setState(State state) {
+  if (this->state == state)
+    return;
+
   this->state = state;
 
   switch (state) {
     case State::SHOW:
       this->opacity = 255;
+      this->playAgainButtonOpacity = 255;
       break;
     case State::HIDDING:
       this->opacity = 255;
@@ -100,11 +126,25 @@ void FinishScreen::setState(State state) {
     case State::HIDDEN:
       this->opacity = 0;
       break;
-    case State::SHOWING:
+    case State::START_SHOWING:
+      this->opacity = 0.0f;
+      this->playAgainButtonOpacity = 0.0f;
+      this->timer = 0.0f;
       break;
   }
 }
 
+void FinishScreen::setScore(int score) {
+  this->score = score;
+  this->scoreText->setText(to_string(score));
+}
+
+void FinishScreen::setBestScore(int bestScore) {
+  this->bestScore = bestScore;
+  this->bestScoreText->setText(to_string(bestScore));
+}
+
 FinishScreen::~FinishScreen() {
-  delete this->gameOverText;
+  delete this->scoreText;
+  delete this->bestScoreText;
 }
