@@ -18,9 +18,11 @@ public:
   virtual void draw() const override;
   virtual void update() override;
 
-  enum class SurfaceState : size_t { SURFACE_MOVING, SURFACE_STOPPED };
+  enum class SurfaceState : size_t { STOPPED = 1, MOVING };
 
   void setVelocityX(const float &velocity);
+
+  void setState(SurfaceState state);
 
 private:
   Game *game;

@@ -3,9 +3,7 @@
 #include "Application.hpp"
 #include "Globals.hpp"
 #include "Keyboard.hpp"
-#include "Logger.h"
 #include "R.hpp"
-#include "Utils.hpp"
 
 using namespace std;
 

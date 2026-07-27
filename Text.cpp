@@ -1,6 +1,5 @@
 #include <algorithm>
 
-#include "Logger.h"
 #include "R.hpp"
 #include "Text.hpp"
 #include "Utils.hpp"
@@ -8,7 +7,7 @@
 
 using namespace std;
 
-Text::Text(const Utils::FONT_SIZE &size, const float &x, const float &y) : size(size) {
+Text::Text(const Utils::FONT_SIZE &size, const float &x, const float &y, const TEXT_ALIGN &align) : size(size), align(align) {
   this->position = {x, y};
 }
 
@@ -17,18 +16,17 @@ void Text::draw() const {
 
   for (auto &c : this->text) {
     DrawTextureRec(R::getSingleton().getTexture(R::TextureIds::FLAPPY_SPRITES),
-                   Utils::fontSources[Utils::FONT_SIZE::LARGE][c], {initialX, this->position.y},
+                   Utils::fontSources[size][c], {initialX, this->position.y},
                    WHITE);
-    initialX += Utils::fontSources[Utils::FONT_SIZE::LARGE][c].width + WITH_SCALE(1.5);
+    initialX += Utils::fontSources[size][c].width + WITH_SCALE(1.5);
   }
 }
 
 void Text::update() {}
 
-void Text::setText(const string &text, const TEXT_ALIGN &align) {
+void Text::setText(const string &text) {
   this->text = text;
-  this->align = align;
-  this->textWidth = text.size() * Utils::fontSources[Utils::FONT_SIZE::LARGE]['0'].width;
+  this->textWidth = text.size() * Utils::fontSources[size]['0'].width;
   this->textWidth += std::max(static_cast<float>(text.size() - 1), 0.0f) * WITH_SCALE(1.5);
 }
 

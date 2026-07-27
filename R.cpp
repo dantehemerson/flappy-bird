@@ -1,17 +1,21 @@
 #include "R.hpp"
+#include "Utils.hpp"
 
-#include <array>
-#include <stdexcept>
-#include <stdio.h>
-
-#include "Logger.h"
 #include <raylib.h>
+#include <stdio.h>
 
 using namespace std;
 
 R *R::instance = nullptr;
 
-R::R() {}
+R::R() {
+  this->medalRectangles = {
+      {R::Medal::BRONZE, {WITH_SCALE(121), WITH_SCALE(258), WITH_SCALE(22), WITH_SCALE(22)}},
+      {R::Medal::SILVER, {WITH_SCALE(146), WITH_SCALE(258), WITH_SCALE(22), WITH_SCALE(22)}},
+      {R::Medal::GOLD_MEDAL, {WITH_SCALE(121), WITH_SCALE(282), WITH_SCALE(22), WITH_SCALE(22)}},
+      {R::Medal::PLATINUM, {WITH_SCALE(112), WITH_SCALE(477), WITH_SCALE(22), WITH_SCALE(22)}},
+  };
+}
 
 R &R::getSingleton() {
   if (!instance) {
@@ -39,7 +43,7 @@ Font R::getFont(const R::FontIds &fontId) const {
   return this->fonts.at(fontId);
 }
 
-Sound R::getSound(const R::SoundId &soundId) const {
+const Sound &R::getSound(const R::SoundId &soundId) const {
   return this->sounds.at(soundId);
 }
 

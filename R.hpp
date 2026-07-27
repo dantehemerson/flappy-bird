@@ -2,9 +2,7 @@
 #ifndef R_HPP
 #define R_HPP
 
-#include <array>
-#include <map>
-#include <string>
+#include <unordered_map>
 
 #include <raylib.h>
 
@@ -19,10 +17,13 @@ public:
   enum TextureIds { FLAPPY_SPRITES = 1 };
   enum FontIds { FLAPPY_FONT = 1 };
   enum SoundId { DIE = 1, HIT, POINT, SWOOSHING, WING };
+  enum Medal { BRONZE = 1, SILVER, GOLD_MEDAL, PLATINUM  };
+
+  unordered_map<Medal, Rectangle> medalRectangles;
 
   Texture2D getTexture(const TextureIds &textureId) const;
   Font getFont(const FontIds &fontId) const;
-  Sound getSound(const SoundId &soundId) const;
+  const Sound &getSound(const SoundId &soundId) const;
 
   ~R();
 

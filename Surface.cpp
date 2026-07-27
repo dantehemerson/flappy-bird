@@ -1,8 +1,4 @@
-#include <algorithm>
-
 #include "Globals.hpp"
-#include "Logger.h"
-#include "Sprite.hpp"
 #include "Surface.hpp"
 #include "SurfaceTile.hpp"
 #include "Utils.hpp"
@@ -18,7 +14,7 @@ Surface::Surface(Game *g) {
   this->tiles[1].position = {WITH_SCALE(168), Globals::Constants::SURFACE_Y};
   this->tiles[1].setVelocityX(-WITH_SCALE(1));
 
-  this->state = Surface::SurfaceState::SURFACE_MOVING;
+  this->state = Surface::SurfaceState::MOVING;
 }
 
 void Surface::draw() const {
@@ -28,11 +24,15 @@ void Surface::draw() const {
 }
 
 void Surface::update() {
-  if (this->state == Surface::SurfaceState::SURFACE_MOVING) {
+  if (this->state == Surface::SurfaceState::MOVING) {
     for (auto &tile : this->tiles) {
       tile.update();
     }
   }
+}
+
+void Surface::setState(SurfaceState state) {
+  this->state = state;
 }
 
 void Surface::setVelocityX(const float &velocity) {

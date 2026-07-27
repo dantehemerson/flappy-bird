@@ -4,7 +4,6 @@
 
 #include "Actor.hpp"
 #include "Bird.hpp"
-#include "Game.hpp"
 #include "Sprite.hpp"
 
 class Bird;

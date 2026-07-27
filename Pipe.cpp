@@ -1,7 +1,7 @@
 #include <algorithm>
 
-#include "Logger.h"
 #include "Pipe.hpp"
+#include "Globals.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
 #include <rlgl.h>
@@ -32,7 +32,7 @@ void Pipe::initializeSprites() {
                  .width = WITH_SCALE(26),
                  .height = WITH_SCALE(160)},
                 60)
-      .setDisplacementY(this->spritePipeTop.getHeight() + WITH_SCALE(42));
+      .setDisplacementY(this->spritePipeTop.getHeight() + Globals::Constants::PIPES_GAP);
 }
 
 void Pipe::draw() const {
@@ -60,7 +60,7 @@ bool Pipe::hasCollided(Bird *bird) {
                     this->spritePipeTop.getWidth(),
                     this->spritePipeTop.getHeight() + WITH_SCALE(200)};
   Rectangle pipeBottom = {this->position.x + WITH_SCALE(1),
-                          this->position.y + this->spritePipeTop.getHeight() + WITH_SCALE(42),
+                          this->position.y + this->spritePipeTop.getHeight() + Globals::Constants::PIPES_GAP,
                           this->spritePipeBottom.getWidth(), this->spritePipeBottom.getHeight()};
 
   EllipseRotated birdEllipse = bird->getEllipsis();
@@ -77,14 +77,7 @@ bool Pipe::hasCollided(Bird *bird) {
 
   if (Utils::isCollisionVectorEllipseRotated(closestPointTop, birdEllipse) ||
       Utils::isCollisionVectorEllipseRotated(closestPointBottom, birdEllipse)) {
-#if BUILD_MODE == DEBUG
-    // LogInfo << "Collision: true" << endl;
-#endif
-    // return true;
-  } else {
-#if BUILD_MODE == DEBUG
-    // LogInfo << "Collision: ___" << endl;
-#endif
+    return true;
   }
 
 #if BUILD_MODE == DEBUG

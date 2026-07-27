@@ -1,9 +1,11 @@
 #ifndef GET_READY_SCREEN_HPP
 #define GET_READY_SCREEN_HPP
 
-#include "Interface.hpp"
+#include "Actor.hpp"
 
-class GetReadyScreen {
+class Game;
+
+class GetReadyScreen: public Actor {
 public:
   GetReadyScreen();
   void draw() const;

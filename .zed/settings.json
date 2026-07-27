@@ -1,0 +1,13 @@
+{
+  "lsp": {
+    "clangd": {
+      "binary": {
+        "path": "/opt/homebrew/opt/llvm/bin/clangd",
+        "arguments": [
+          "--background-index",
+          "--compile-commands-dir=/Users/d/coding/games/flappy-bird"
+        ]
+      }
+    }
+  }
+}

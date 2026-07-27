@@ -2,10 +2,6 @@
 #ifndef PERIPHERAL_HPP
 #define PERIPHERAL_HPP
 
-#include <string>
-
-using namespace std;
-
 #define INVALID_STATE -2
 #define INVALID_COMPONENT -3
 

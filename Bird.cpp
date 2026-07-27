@@ -69,6 +69,16 @@ void Bird::initializeSprites() {
                                                       .width = birdFrameWidth,
                                                       .height = birdFrameHeight},
                                             ticks);
+  ticks = 3;
+  auto deadIndex = static_cast<size_t>(BirdState::STATE_DEAD);
+  this->sprites[deadIndex].setOwner(this);
+  this->sprites[deadIndex].setRepeat(false);
+  this->sprites[deadIndex].addFrameCentered(R::TextureIds::FLAPPY_SPRITES,
+                                            Rectangle{.x = WITH_SCALE(31),
+                                                      .y = WITH_SCALE(491),
+                                                      .width = birdFrameWidth,
+                                                      .height = birdFrameHeight},
+                                            ticks);
 }
 
 void Bird::draw() const {
@@ -79,7 +89,7 @@ void Bird::update() {
   Sprite &activeSprite = this->sprites[static_cast<size_t>(this->state)];
 
   switch (this->state) {
-    case Bird::BirdState::STATE_MOVING:
+    case BirdState::STATE_MOVING:
       if (activeSprite.getBottom() < Globals::Constants::SURFACE_Y || this->velocity < 0) {
         this->velocity += this->gravity;
         this->position.y += velocity;
@@ -91,15 +101,17 @@ void Bird::update() {
         this->rotation = std::max(-30.0f, std::min(90.0f, this->rotation));
       }
 
-      if (activeSprite.getBottom() >= Globals::Constants::SURFACE_Y) {
-        this->position.y =
-            Globals::Constants::SURFACE_Y - activeSprite.getHeight() / 2 + WITH_SCALE(2);
-        // TODO: Die here
-      } else if (this->position.y < WITH_SCALE(-70)) { // Avoid going too high
+      if (activeSprite.getBottom() >= Globals::Constants::SURFACE_Y) { // Die
+        this->position.y = Globals::Constants::SURFACE_Y;
+        this->setState(BirdState::STATE_DEAD);
+        this->game->execute(Game::GameActions::BIRD_DIED);
+
+      } else if (this->position.y < WITH_SCALE(-70)) { // Avoid going too high. Set a roof.
         this->position.y = WITH_SCALE(-70);
       }
       break;
-    case Bird::BirdState::STATE_IDLE:
+
+    case BirdState::STATE_IDLE:
       this->position.y += this->velocity;
       this->velocity += this->gravity;
 
@@ -111,6 +123,9 @@ void Bird::update() {
         this->gravity = -WITH_SCALE(0.04);
       }
 
+      break;
+
+    default:
       break;
   }
 
@@ -133,30 +148,55 @@ EllipseRotated Bird::getEllipsis() const {
 }
 
 void Bird::setState(BirdState state) {
+  if (state == this->state)
+    return;
+
   switch (state) {
     case Bird::BirdState::STATE_IDLE:
       this->velocity = WITH_SCALE(0.5);
       this->gravity = -WITH_SCALE(0.04);
       this->rotation = 0;
       break;
+
+    case Bird::BirdState::STATE_DEAD:
+      PlaySound(R::getSingleton().getSound(R::SoundId::HIT));
+      break;
+
+    case Bird::BirdState::DEAD_WITH_FALL:
+      PlaySound(R::getSingleton().getSound(R::SoundId::HIT));
+      PlaySound(R::getSingleton().getSound(R::SoundId::DIE));
+      break;
+
+    default:
+      break;
   }
 
-  this->state = state;
+  if (state == BirdState::DEAD_WITH_FALL)
+    this->state = BirdState::STATE_DEAD;
+  else
+    this->state = state;
+}
+
+bool Bird::isDead() const {
+  return this->state == BirdState::STATE_DEAD || this->state == BirdState::DEAD_WITH_FALL;
 }
 
 void Bird::doAction(action_t action, int magnitute) {
   switch (action) {
     case BirdActions::BIRD_ACTION_JUMP:
+      if (this->state == BirdState::STATE_DEAD)
+        return;
 
-      if (this->state == Bird::BirdState::STATE_IDLE) {
-        this->setState(Bird::BirdState::STATE_MOVING);
+      if (this->state == BirdState::STATE_IDLE) {
+        this->setState(BirdState::STATE_MOVING);
         this->velocity = 0;
         this->gravity = 0.44;
-        this->game->execute(Game::GameActions::HIDE_GET_READY_SCREEN);
+        this->game->execute(Game::GameActions::BIRD_STARTED_MOVING);
       }
 
       PlaySound(R::getSingleton().getSound(R::SoundId::WING));
       this->velocity = -WITH_SCALE(2.5);
+
       break;
   }
 }
