@@ -18,7 +18,7 @@ public:
 
   virtual void reset() override;
 
-  inline void poll(){};
+  inline void poll() {};
 
   ~Keyboard();
 

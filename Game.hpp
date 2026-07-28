@@ -21,16 +21,12 @@ class Game : public Interface, public ControllableObject {
 public:
   explicit Game(Application *const app);
 
-  enum class GameState : size_t { GET_READY = 1, PLAYING, FINISH };
+  enum class GameState { GET_READY = 1, PLAYING, FINISH };
 
   virtual void draw() const override;
   virtual void update() override;
 
-  enum class GameActions {
-    BIRD_STARTED_MOVING = 639,
-    BIRD_DIED,
-    PLAY_AGAIN
-  };
+  enum class GameActions { BIRD_STARTED_MOVING = 639, BIRD_DIED, PLAY_AGAIN };
 
   virtual void doAction(action_t action, int magnitute = 0) override;
 
@@ -46,7 +42,7 @@ private:
   ActorManager *actorManager;
   StageManager *stageManager;
   PipesManager *pipesManager;
-  Surface* surface;
+  Surface *surface;
 
   Bird *bird;
 

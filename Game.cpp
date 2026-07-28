@@ -10,8 +10,12 @@
 #include "GetReadyScreen.hpp"
 #include "Globals.hpp"
 #include "HiddenText.hpp"
+#include "Interface.hpp"
+#include "Mouse.hpp"
+#include "Peripheral.hpp"
 #include "Pipe.hpp"
 #include "PipesManager.hpp"
+#include "R.hpp"
 #include "StageManager.hpp"
 #include "Surface.hpp"
 #include "Utils.hpp"
@@ -35,9 +39,13 @@ Game::Game(Application *const app)
   controlFinishScreen->setActionPeripheral(FinishScreen::Actions::PLAY_AGAIN,
                                            this->app->getKeyboard(), KeyboardKey::KEY_SPACE,
                                            Peripheral::ON_PRESS);
+  controlFinishScreen->setActionPeripheral(FinishScreen::Actions::PLAY_AGAIN,
+                                           this->app->getMouse(), MouseButton::MOUSE_BUTTON_LEFT,
+                                           Peripheral::ON_PRESS);
 
   this->controlManager = new ControlManager();
   controlManager->addPeripheral(this->app->getKeyboard());
+  controlManager->addPeripheral(this->app->getMouse());
 
   this->actorManager = new ActorManager();
   this->stageManager = new StageManager(actorManager);
@@ -51,6 +59,8 @@ Game::Game(Application *const app)
   controlBird->addActionName(BirdActions::BIRD_ACTION_JUMP, "Bird jump");
   controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getKeyboard(),
                                    KeyboardKey::KEY_SPACE, Peripheral::ON_PRESS);
+  controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getMouse(),
+                                   MouseButton::MOUSE_BUTTON_LEFT, Peripheral::ON_PRESS);
 
   this->pipesManager = new PipesManager(this->bird);
   pipesManager->setVelocityX(-WITH_SCALE(1));

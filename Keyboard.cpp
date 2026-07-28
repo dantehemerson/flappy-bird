@@ -1,4 +1,5 @@
 #include "Keyboard.hpp"
+#include "Peripheral.hpp"
 #include <raylib.h>
 
 Keyboard::Keyboard() {}

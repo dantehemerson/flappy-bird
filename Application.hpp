@@ -4,6 +4,8 @@
 
 #include "Game.hpp"
 #include "Keyboard.hpp"
+#include "Mouse.hpp"
+#include <string>
 
 class Application {
 public:
@@ -14,6 +16,7 @@ public:
   void loop();
 
   Keyboard *getKeyboard() const;
+  Mouse *getMouse() const;
 
   void quit();
 
@@ -34,6 +37,7 @@ private:
 
   Game *game;
   Keyboard *keyboard;
+  Mouse *mouse;
 };
 
 #endif // !APPLICATION_HPP

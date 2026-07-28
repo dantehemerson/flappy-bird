@@ -1,8 +1,10 @@
 #include <raylib.h>
 
 #include "Application.hpp"
+#include "Game.hpp"
 #include "Globals.hpp"
 #include "Keyboard.hpp"
+#include "Mouse.hpp"
 #include "R.hpp"
 
 using namespace std;
@@ -23,6 +25,7 @@ void Application::init(int argc, char **argv) {
   R::getSingleton().loadResources();
 
   this->keyboard = new Keyboard();
+  this->mouse = new Mouse();
   this->game = new Game(this);
 }
 
@@ -40,6 +43,10 @@ void Application::loop() {
 
 Keyboard *Application::getKeyboard() const {
   return this->keyboard;
+}
+
+Mouse *Application::getMouse() const {
+  return this->mouse;
 }
 
 void Application::quit() {
