@@ -2,7 +2,6 @@
 #ifndef ACTORMANAGER_HPP
 #define ACTORMANAGER_HPP
 
-#include <algorithm>
 #include <list>
 
 class Actor;

@@ -1,7 +1,9 @@
+#include <cmath>
 #include <cstdlib>
 #include <ctime>
-
-#include <map>
+#include <math.h>
+#include <raylib.h>
+#include <unordered_map>
 
 #include "Utils.hpp"
 

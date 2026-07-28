@@ -5,7 +5,7 @@
 
 class Game;
 
-class GetReadyScreen: public Actor {
+class GetReadyScreen : public Actor {
 public:
   GetReadyScreen();
   void draw() const;

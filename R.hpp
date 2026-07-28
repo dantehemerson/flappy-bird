@@ -17,7 +17,7 @@ public:
   enum TextureIds { FLAPPY_SPRITES = 1 };
   enum FontIds { FLAPPY_FONT = 1 };
   enum SoundId { DIE = 1, HIT, POINT, SWOOSHING, WING };
-  enum Medal { BRONZE = 1, SILVER, GOLD_MEDAL, PLATINUM  };
+  enum Medal { BRONZE = 1, SILVER, GOLD_MEDAL, PLATINUM };
 
   unordered_map<Medal, Rectangle> medalRectangles;
 

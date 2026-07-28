@@ -3,7 +3,6 @@
 #define SURFACE_TILEHPP
 
 #include "Actor.hpp"
-#include "Game.hpp"
 #include "Sprite.hpp"
 
 class SurfaceTile : public Actor {

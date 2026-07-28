@@ -1,7 +1,7 @@
-#include <iostream>
-
-#include "Actor.hpp"
 #include "ActorManager.hpp"
+#include "Actor.hpp"
+#include <algorithm>
+#include <list>
 
 using namespace std;
 

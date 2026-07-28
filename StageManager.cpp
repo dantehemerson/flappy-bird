@@ -12,7 +12,7 @@ void StageManager::draw() {
   this->actorManager->rewind();
 
   Actor *actor;
-  while ((actor = this->actorManager->next()) != NULL) {
+  while ((actor = this->actorManager->next()) != nullptr) {
     actor->draw();
   }
 }

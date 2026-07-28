@@ -1,6 +1,9 @@
 #include "Sprite.hpp"
-
 #include "Actor.hpp"
+#include "Frame.hpp"
+#include "R.hpp"
+
+#include <raylib.h>
 
 Sprite::Sprite(Actor *owner) : owner(owner) {
   this->actualFrame = 0;
@@ -28,7 +31,7 @@ void Sprite::update() {
     } else {
       static int dif;
       dif = frames.at(actualFrame - 1).getWidth() - frames.at(actualFrame).getWidth();
-      owner->position.x = this->owner->position.x + dif / 2;
+      owner->position.x = this->owner->position.x + dif / 2.0f;
     }
   } else {
     actualTick++;

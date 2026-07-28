@@ -1,6 +1,6 @@
+#include "PipesManager.hpp"
 #include "Bird.hpp"
 #include "Pipe.hpp"
-#include "PipesManager.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
 
@@ -78,10 +78,7 @@ bool PipesManager::hasBirdPassedPipe() {
 bool PipesManager::hasBirdCollided() const {
   for (auto &pipe : this->pipes) {
     bool collided = pipe->hasCollided(this->bird);
-    // LogInfo << "Collided: " << collided << endl;
     if (collided) {
-
-
       return true;
     }
   }

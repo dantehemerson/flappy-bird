@@ -4,10 +4,12 @@
 #include "Text.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
+#include <string>
 
 using namespace std;
 
-Text::Text(const Utils::FONT_SIZE &size, const float &x, const float &y, const TEXT_ALIGN &align) : size(size), align(align) {
+Text::Text(const Utils::FONT_SIZE &size, const float &x, const float &y, const TEXT_ALIGN &align)
+    : size(size), align(align) {
   this->position = {x, y};
 }
 
@@ -16,8 +18,7 @@ void Text::draw() const {
 
   for (auto &c : this->text) {
     DrawTextureRec(R::getSingleton().getTexture(R::TextureIds::FLAPPY_SPRITES),
-                   Utils::fontSources[size][c], {initialX, this->position.y},
-                   WHITE);
+                   Utils::fontSources[size][c], {initialX, this->position.y}, WHITE);
     initialX += Utils::fontSources[size][c].width + WITH_SCALE(1.5);
   }
 }

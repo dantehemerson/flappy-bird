@@ -1,8 +1,5 @@
-#include <algorithm>
-
-#include "Logger.h"
-#include "Sprite.hpp"
 #include "SurfaceTile.hpp"
+#include "Sprite.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
 

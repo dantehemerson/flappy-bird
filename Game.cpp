@@ -11,7 +11,6 @@
 #include "Globals.hpp"
 #include "HiddenText.hpp"
 #include "Interface.hpp"
-#include "Mouse.hpp"
 #include "Peripheral.hpp"
 #include "Pipe.hpp"
 #include "PipesManager.hpp"

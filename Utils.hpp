@@ -2,8 +2,8 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include <unordered_map>
 #include <raylib.h>
+#include <unordered_map>
 
 using namespace std;
 

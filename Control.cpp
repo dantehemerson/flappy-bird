@@ -1,4 +1,7 @@
 #include "Control.hpp"
+#include "ControllableObject.hpp"
+#include "Peripheral.hpp"
+#include <string>
 
 using namespace std;
 
@@ -6,7 +9,7 @@ void Control::addActionName(ControllableObject::action_t action, string name) {
   association_t association;
   association.action = action;
   association.name = name;
-  association.peripheral = NULL;
+  association.peripheral = nullptr;
   association.component = 0;
   associations.push_back(association);
 }

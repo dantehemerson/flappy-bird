@@ -9,7 +9,7 @@ namespace Globals {
   namespace Constants {
     static const float SURFACE_Y = WITH_SCALE(204);
     static const float PIPES_VERTICAL_GAP = WITH_SCALE(54);
-  }
+  } // namespace Constants
 
   namespace Settings {
     static const int WIDTH = WITH_SCALE(152);

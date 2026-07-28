@@ -28,8 +28,6 @@ public:
   bool hasBirdPassedPipe();
   bool hasBirdCollided() const;
 
-
-
 private:
   vector<Pipe *> pipes;
   PipesState state;

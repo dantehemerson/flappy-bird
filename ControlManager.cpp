@@ -1,6 +1,8 @@
 #include <vector>
 
+#include "Control.hpp"
 #include "ControlManager.hpp"
+#include "Peripheral.hpp"
 
 ControlManager::ControlManager() {
   for (int i = 0; i < MAX_PERIPHERALS; i++) {
@@ -39,8 +41,8 @@ ControlManager::change_t ControlManager::getChange() {
   Peripheral::component_t comp;
   int pos = 0;
 
-  for (peripheralsIter = peripherals.begin();
-       peripheralsIter != peripherals.end(); peripheralsIter++) {
+  for (peripheralsIter = peripherals.begin(); peripheralsIter != peripherals.end();
+       peripheralsIter++) {
     pos++;
     comp = (*peripheralsIter)->getChange();
     if (comp != INVALID_COMPONENT) {
@@ -55,23 +57,21 @@ ControlManager::change_t ControlManager::getChange() {
 }
 
 void ControlManager::update() {
-  for (controlsIter = controls.begin(); controlsIter != controls.end();
-       controlsIter++) {
+  for (controlsIter = controls.begin(); controlsIter != controls.end(); controlsIter++) {
     (*controlsIter)->update();
   }
 }
 
 ControlManager::~ControlManager() {
-  for (peripheralsIter = peripherals.begin();
-       peripheralsIter != peripherals.end(); peripheralsIter++) {
+  for (peripheralsIter = peripherals.begin(); peripheralsIter != peripherals.end();
+       peripheralsIter++) {
     if (*peripheralsIter) {
       //			delete(*peripheralsIter);
       /* El teclado no se borra esta declarado en Application y se elimina
        * ante.*/
     }
   }
-  for (controlsIter = controls.begin(); controlsIter != controls.end();
-       controlsIter++) {
+  for (controlsIter = controls.begin(); controlsIter != controls.end(); controlsIter++) {
     delete (*controlsIter);
   }
 }

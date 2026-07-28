@@ -1,6 +1,8 @@
 #include "Frame.hpp"
-#include "Logger.h"
+#include "Actor.hpp"
 #include "R.hpp"
+
+#include <raylib.h>
 
 Frame::Frame(Actor *_owner, R::TextureIds _textureId, const Rectangle &_source, int _ticks,
              const bool center)

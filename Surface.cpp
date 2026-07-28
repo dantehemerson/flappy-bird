@@ -1,5 +1,6 @@
-#include "Globals.hpp"
 #include "Surface.hpp"
+#include "Game.hpp"
+#include "Globals.hpp"
 #include "SurfaceTile.hpp"
 #include "Utils.hpp"
 #include <raylib.h>
