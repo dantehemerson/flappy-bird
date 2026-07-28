@@ -387,6 +387,7 @@ all:
 	$(MAKE) $(MAKEFILE_PARAMS)
 
 
+INCLUDE_PATHS += -I./src
 INCLUDE_PATHS += -I./src/external/logger/include
 INCLUDE_PATHS += -I./src/external/logger/include
 # CFLAGS += -DLOGGER_ENABLE_COLORS=0
