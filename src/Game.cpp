@@ -107,7 +107,7 @@ void Game::update() {
     }
   }
 
-#if BUILD_MODE == DEBUG
+#ifdef DEBUG_BUILD
   DrawFPS(10, 10);
 #endif
 }
