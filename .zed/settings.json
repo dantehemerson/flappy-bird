@@ -5,7 +5,8 @@
         "path": "/opt/homebrew/opt/llvm/bin/clangd",
         "arguments": [
           "--background-index",
-          "--compile-commands-dir=/Users/d/coding/games/flappy-bird"
+          "--compile-commands-dir=/Users/d/coding/games/flappy-bird",
+          "--query-driver=/usr/bin/clang++"
         ]
       }
     }

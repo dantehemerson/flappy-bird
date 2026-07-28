@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="EN-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Flappy Bird</title>
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+      body {
+        font-family: arial;
+        margin: 0;
+        padding: 0;
+        background: #000;
+        color: #fff;
+      }
+
+      #header {
+        width: 100%;
+        height: 80px;
+        background-color: #888888;
+      }
+
+      .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
+      div.emscripten { text-align: center; }
+      div.emscripten_border {
+        border: 1px solid black;
+        text-align: center;
+        /* Center the canvas inside the available viewport */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: calc(100vh - 240px);
+        box-sizing: border-box;
+      }
+
+      /* The game's internal render buffer is GAME_W x GAME_H (portrait).
+         We size the canvas via CSS to the largest rectangle of that aspect
+         ratio that fits the viewport, so the game is never stretched or
+         cropped. We do NOT use width:100% because that would force the
+         canvas into a different aspect ratio than the game. */
+      canvas.emscripten {
+        border: 0px none;
+        background: black;
+        display: block;
+        /* Defaults: emcc sets width/height attributes (the framebuffer) and
+           may also set style.width/height. We override the style below. */
+        width: 480px;
+        height: auto;
+        max-width: 100%;
+        max-height: calc(100vh - 240px);
+        /* Preserve aspect ratio even when the browser tries to stretch us */
+        aspect-ratio: 608 / 984;
+      }
+
+      #status { display: inline-block; vertical-align: top; margin-top: 30px; margin-left: 20px; font-weight: bold; color: rgb(40, 40, 40); }
+      #progress { height: 0px; width: 0px; }
+      #controls { display: inline-block; float: right; vertical-align: top; margin-top: 15px; margin-right: 20px; }
+
+      #output {
+        border: 0px none; padding: 0; width: 100%; height: 140px;
+        margin: 10px auto 0; display: block; background-color: black;
+        color: rgb(37, 174, 38); font-family: 'Lucida Console', Monaco, monospace; outline: none;
+      }
+
+      input[type=button] {
+        background-color: lightgray; border: 4px solid darkgray; color: black;
+        text-decoration: none; cursor: pointer; width: 140px; height: 50px; margin-left: 10px;
+      }
+      input[type=button]:hover { background-color: #f5f5f5; border-color: black; }
+    </style>
+  </head>
+  <body>
+    <div id="header">
+        <div class="spinner" id='spinner'></div>
+        <div class="emscripten" id="status">Downloading...</div>
+        <span id='controls'>
+          <span><input type="button" value="🖵 FULLSCREEN" id="btn-fullscreen"></span>
+          <span><input type="button" id="btn-audio" value="🔇 MUTE"></span>
+        </span>
+        <div class="emscripten">
+          <progress value="0" max="100" id="progress" hidden=1></progress>
+        </div>
+    </div>
+
+    <div class="emscripten_border">
+      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1 width="608" height="984"></canvas>
+    </div>
+
+    <textarea id="output" rows="8"></textarea>
+
+    <script type='text/javascript'>
+      // --- Aspect-ratio aware fullscreen -------------------------------------
+      // The game's internal framebuffer is 608 x 984 (portrait). When
+      // fullscreen is requested, we don't want emcc to set the canvas to
+      // 100% / 100% of the screen (which would stretch it on landscape
+      // monitors). Instead, we compute the largest rectangle of the game's
+      // aspect ratio that fits the screen and apply that as inline style.
+      var GAME_W = 608;
+      var GAME_H = 984;
+
+      function fitCanvasToScreen() {
+        var canvas = document.getElementById('canvas');
+        if (!canvas) return;
+        var availW = window.innerWidth;
+        var availH = window.innerHeight;
+        // Account for the page header + output textarea, except when truly fullscreen
+        if (!document.fullscreenElement) {
+          availH = Math.max(240, availH) - 240;
+        }
+        var ratio = GAME_W / GAME_H;
+        var w = availW;
+        var h = w / ratio;
+        if (h > availH) {
+          h = availH;
+          w = h * ratio;
+        }
+        canvas.style.width = Math.floor(w) + 'px';
+        canvas.style.height = Math.floor(h) + 'px';
+      }
+
+      function goFullscreen() {
+        var canvas = document.getElementById('canvas');
+        var req = canvas.requestFullscreen || canvas.webkitRequestFullscreen || canvas.msRequestFullscreen;
+        if (req) {
+          req.call(canvas).then(fitCanvasToScreen).catch(fitCanvasToScreen);
+        } else {
+          // Fallback: just resize the canvas to fill the viewport
+          fitCanvasToScreen();
+        }
+      }
+
+      window.addEventListener('resize', fitCanvasToScreen);
+      window.addEventListener('fullscreenchange', fitCanvasToScreen);
+
+      document.getElementById('btn-fullscreen').addEventListener('click', goFullscreen);
+
+      fitCanvasToScreen();
+
+      function saveFileFromMEMFSToDisk(memoryFSname, localFSname) {
+        var data = FS.readFile(memoryFSname);
+        var blob = new Blob([data.buffer], { type: 'application/octet-binary' });
+        saveAs(blob, localFSname);
+      }
+    </script>
+    <script type='text/javascript' src="https://cdn.jsdelivr.net/gh/eligrey/FileSaver.js/dist/FileSaver.min.js"> </script>
+    <script type='text/javascript'>
+      var statusElement = document.querySelector('#status');
+      var progressElement = document.querySelector('#progress');
+      var spinnerElement = document.querySelector('#spinner');
+      var Module = {
+        preRun: [],
+        postRun: [],
+        print: (function() {
+          var element = document.querySelector('#output');
+          if (element) element.value = '';
+          return function(text) {
+            if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+            console.log(text);
+            if (element) {
+              element.value += text + "\n";
+              element.scrollTop = element.scrollHeight;
+            }
+          };
+        })(),
+        printErr: function(text) {
+          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+          console.error(text);
+        },
+        canvas: (function() {
+          var canvas = document.querySelector('#canvas');
+          canvas.addEventListener("webglcontextlost", function(e) {
+            alert('WebGL context lost. You will need to reload the page.');
+            e.preventDefault();
+          }, false);
+          return canvas;
+        })(),
+        setStatus: function(text) {
+          if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+          if (text === Module.setStatus.last.text) return;
+          var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+          var now = Date.now();
+          if (m && now - Module.setStatus.last.time < 30) return;
+          Module.setStatus.last.time = now;
+          Module.setStatus.last.text = text;
+          if (m) {
+            text = m[1];
+            progressElement.value = parseInt(m[2])*100;
+            progressElement.max = parseInt(m[4])*100;
+            progressElement.hidden = true;
+            spinnerElement.hidden = false;
+          } else {
+            progressElement.value = null;
+            progressElement.max = null;
+            progressElement.hidden = true;
+            if (!text) spinnerElement.style.display = 'none';
+          }
+          statusElement.innerHTML = text;
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+        }
+      };
+      Module.setStatus('Downloading...');
+      window.onerror = function() {
+        Module.setStatus('Exception thrown, see JavaScript console');
+        spinnerElement.style.display = 'none';
+        Module.setStatus = function(text) { if (text) Module.printErr('[post-exception status] ' + text); };
+      };
+    </script>
+
+    <script type='text/javascript'>
+      var audioBtn = document.querySelector('#btn-audio');
+      const audioContexList = [];
+      (function() {
+        self.AudioContext = new Proxy(self.AudioContext, {
+          construct(target, args) {
+            const result = new target(...args);
+            audioContexList.push(result);
+            if (result.state == "suspended") audioBtn.value = "🔈 RESUME";
+            return result;
+          }
+        });
+      })();
+      function toggleAudio() {
+        var resumed = false;
+        audioContexList.forEach(ctx => {
+          if (ctx.state == "suspended") { ctx.resume(); resumed = true; }
+          else if (ctx.state == "running") ctx.suspend();
+        });
+        audioBtn.value = resumed ? "🔇 MUTE" : "🔈 RESUME";
+      }
+      audioBtn.addEventListener('click', toggleAudio);
+    </script>
+    {{{ SCRIPT }}}
+  </body>
+</html>

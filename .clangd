@@ -1,3 +1,7 @@
+CompileFlags:
+  Add:
+    - -I/opt/homebrew/include
+
 Diagnostics:
   MissingIncludes: Strict
   UnusedIncludes: Strict

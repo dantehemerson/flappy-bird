@@ -1,33 +1,46 @@
-# 🐤 Flappy Bird
+<h1 align="center">🐤 Flappy Bird</h1>
 
-An implementation of the classic FlappyBird game in C++.
+<p align="center">
+An implementation of the classic <a href="https://en.wikipedia.org/wiki/Flappy_Bird">FlappyBird</a> game in C++.
+</p>
+
+<div align="center">
+
+[![Play Online](https://img.shields.io/badge/Play%20Online-Web%20Game-FF8C00?style=for-the-badge&logo=googlechrome&logoColor=white)](https://dantehemerson.github.io/flappy-bird/)
+[![Raylib](https://img.shields.io/badge/Raylib-000000?style=for-the-badge&logo=raylib&logoColor=white)](https://www.raylib.com/)
+![GitHub](https://img.shields.io/github/license/dantehemerson/flappy-bird?color=%232F3742&style=for-the-badge)
+
+</div>
+
+<div align="center">
+
+https://github.com/user-attachments/assets/aac8871e-a9ec-4c00-9486-b74cc173752f
+
+</div>
 
 
-## 📹 Video Progress
+## 📖 About
 
+Flappy Bird is a side-scrolling arcade game where the player controls a bird that continuously falls due to gravity. The goal is to fly as far as possible by navigating through gaps between pairs of pipes without crashing into them or the ground. Each pipe successfully passed adds one point to the score.
 
-https://github.com/dantehemerson/flappy-bird/assets/18385321/7ede693c-8f95-4211-95b3-6344901af808
+## 🎮 Controls
 
+| Input | Action |
+| --- | --- |
+| **Space** / **Left click** (mouse) / **Tap** (mobile) | Flap |
+| **Escape** | Quit the game |
 
-## 📋 Prerequisites
+## 🛠️ Technologies
 
-* [CMake](https://cmake.org/)
-* [Raylib](https://www.raylib.com/)
-* [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
+* [C++](https://en.wikipedia.org/wiki/C%2B%2B) — core game language
+* [Raylib](https://www.raylib.com/) — graphics and input library
+* [clang-format](https://clang.llvm.org/docs/ClangFormat.html) — code formatter
 
-## 💅 Formatter
+## 🧪 Tested On
 
-The project uses the [clang-format](https://clang.llvm.org/docs/ClangFormat.html) formatter.
+Tested on Mac, Arch and Web!
 
-In `settings.json` file you can find the following setting, you can change to specify the clang-format executable:
-
-```json
-"clang-format.executable": "clang-format-11"
-```
-
-## 🚀 Getting Started (Tested only in MacOS)
-
-### 🚙 Run
+## 🚀 Quick Start
 
 Just run the `run.sh` script:
 
@@ -36,7 +49,7 @@ Just run the `run.sh` script:
 ```
 
 ## 🤵  Author
-* **[Dante Calderon](htttps://github.com/dantehemerson)**
+* [Dante Calderon](https://github.com/dantehemerson)
 
 ##  🤝 Contributing
 
@@ -44,4 +57,4 @@ Contributions, issues and feature requests are welcome!
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details
