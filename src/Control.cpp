@@ -1,31 +1,18 @@
 #include "Control.hpp"
 #include "ControllableObject.hpp"
 #include "Peripheral.hpp"
-#include <string>
 
 using namespace std;
 
-void Control::addActionName(ControllableObject::action_t action, string name) {
-  association_t association;
-  association.action = action;
-  association.name = name;
-  association.peripheral = nullptr;
-  association.component = 0;
-  associations.push_back(association);
-}
-
-void Control::setActionPeripheral(ControllableObject::action_t action, Peripheral *peripheral,
+void Control::addActionPeripheral(ControllableObject::action_t action, Peripheral *peripheral,
                                   Peripheral::component_t component, Peripheral::event_t event) {
-  for (associationsIter = associations.begin(); associationsIter != associations.end();
-       associationsIter++) {
-    if (associationsIter->action == action) {
-      associationsIter->peripheral = peripheral;
-      associationsIter->component = component;
-      associationsIter->event = event;
-      associationsIter->oldEvent = Peripheral::NO_EVENT;
-      return;
-    }
-  }
+  binding_t binding;
+  binding.action = action;
+  binding.peripheral = peripheral;
+  binding.component = component;
+  binding.event = event;
+  binding.oldEvent = Peripheral::NO_EVENT;
+  bindings.push_back(binding);
 }
 
 void Control::setOwner(ControllableObject *owner) {
@@ -33,68 +20,46 @@ void Control::setOwner(ControllableObject *owner) {
 }
 
 ControllableObject *Control::getOwner() const {
-  return owner; /* Retorna el apuntador al due�o del control. */
+  return owner;
 }
 
 void Control::update() {
-  int doActionOrder;
-  Peripheral::state_t currentState;
-  Peripheral::event_t previousEvent;
-  for (associationsIter = associations.begin(); associationsIter != associations.end();
-       associationsIter++) {
+  for (auto &binding : bindings) {
+    Peripheral::state_t currentState = binding.peripheral->getState(binding.component);
+    Peripheral::event_t previousEvent = binding.oldEvent;
+    bool doActionOrder = false;
 
-    currentState = associationsIter->peripheral->getState(associationsIter->component);
-    previousEvent = associationsIter->oldEvent;
-
-    doActionOrder = false;
-
-    switch (associationsIter->event) {
+    switch (binding.event) {
       case Peripheral::ON_PRESSING:
-        if (currentState != INVALID_STATE) {
+        if (currentState != INVALID_STATE)
           doActionOrder = true;
-        }
         break;
-
       case Peripheral::ON_PRESS:
         if ((previousEvent == Peripheral::ON_RELEASE) && (currentState != INVALID_STATE)) {
-          associationsIter->oldEvent = Peripheral::ON_PRESS;
+          binding.oldEvent = Peripheral::ON_PRESS;
           doActionOrder = true;
         } else if (currentState == INVALID_STATE) {
-          associationsIter->oldEvent = Peripheral::ON_RELEASE;
+          binding.oldEvent = Peripheral::ON_RELEASE;
         }
         break;
-
       case Peripheral::ON_RELEASE:
         if ((previousEvent == Peripheral::ON_PRESS) && (currentState == INVALID_STATE)) {
-          associationsIter->oldEvent = Peripheral::ON_RELEASE;
+          binding.oldEvent = Peripheral::ON_RELEASE;
           doActionOrder = true;
         } else if (currentState != INVALID_STATE) {
-          associationsIter->oldEvent = Peripheral::ON_PRESS;
+          binding.oldEvent = Peripheral::ON_PRESS;
         }
         break;
-
       case Peripheral::ON_RELEASING:
-        if (currentState == INVALID_STATE) {
+        if (currentState == INVALID_STATE)
           doActionOrder = true;
-        }
         break;
-
       default:
         break;
     }
 
     if (doActionOrder) {
-      owner->doAction(associationsIter->action, currentState);
+      owner->doAction(binding.action, currentState);
     }
   }
-}
-
-string Control::getNameAction(ControllableObject::action_t action) {
-  for (associationsIter = associations.begin(); associationsIter != associations.end();
-       associationsIter++) {
-    if (associationsIter->action == action) {
-      return associationsIter->name;
-    }
-  }
-  return "";
 }

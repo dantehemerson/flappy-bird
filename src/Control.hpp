@@ -3,7 +3,6 @@
 #define CONTROL_HPP
 
 #include <list>
-#include <string>
 
 #include "ControllableObject.hpp"
 #include "Peripheral.hpp"
@@ -14,19 +13,14 @@ class Control {
 public:
   typedef struct {
     ControllableObject::action_t action;
-    string name;
     Peripheral *peripheral;
     Peripheral::component_t component;
     Peripheral::event_t oldEvent;
     Peripheral::event_t event;
-  } association_t;
+  } binding_t;
 
-  void addActionName(ControllableObject::action_t action, string name);
-
-  void setActionPeripheral(ControllableObject::action_t action, Peripheral *peripheral,
+  void addActionPeripheral(ControllableObject::action_t action, Peripheral *peripheral,
                            Peripheral::component_t component, Peripheral::event_t event);
-
-  string getNameAction(ControllableObject::action_t);
 
   void setOwner(ControllableObject *);
 
@@ -38,8 +32,7 @@ public:
 
 private:
   ControllableObject *owner;
-  list<association_t> associations;
-  list<association_t>::iterator associationsIter;
+  list<binding_t> bindings;
 };
 
 #endif // !CONTROL_HPP

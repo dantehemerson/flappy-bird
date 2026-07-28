@@ -34,11 +34,10 @@ Game::Game(Application *const app)
   Control *controlFinishScreen = new Control();
   controlFinishScreen->setOwner(this->finishScreen);
 
-  controlFinishScreen->addActionName(FinishScreen::Actions::PLAY_AGAIN, "Play again");
-  controlFinishScreen->setActionPeripheral(FinishScreen::Actions::PLAY_AGAIN,
+  controlFinishScreen->addActionPeripheral(FinishScreen::Actions::PLAY_AGAIN,
                                            this->app->getKeyboard(), KeyboardKey::KEY_SPACE,
                                            Peripheral::ON_PRESS);
-  controlFinishScreen->setActionPeripheral(FinishScreen::Actions::PLAY_AGAIN,
+  controlFinishScreen->addActionPeripheral(FinishScreen::Actions::PLAY_AGAIN,
                                            this->app->getMouse(), MouseButton::MOUSE_BUTTON_LEFT,
                                            Peripheral::ON_PRESS);
 
@@ -55,10 +54,9 @@ Game::Game(Application *const app)
   Control *controlBird = new Control();
   controlBird->setOwner(bird);
 
-  controlBird->addActionName(BirdActions::BIRD_ACTION_JUMP, "Bird jump");
-  controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getKeyboard(),
+  controlBird->addActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getKeyboard(),
                                    KeyboardKey::KEY_SPACE, Peripheral::ON_PRESS);
-  controlBird->setActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getMouse(),
+  controlBird->addActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getMouse(),
                                    MouseButton::MOUSE_BUTTON_LEFT, Peripheral::ON_PRESS);
 
   this->pipesManager = new PipesManager(this->bird);
