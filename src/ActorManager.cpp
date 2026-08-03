@@ -16,6 +16,7 @@ void ActorManager::del(Actor *actor) {
 
   tempActorsIter = find(actors.begin(), actors.end(), actor);
   if (tempActorsIter != actors.end()) {
+    delete *tempActorsIter;
     actors.erase(tempActorsIter);
   }
 }

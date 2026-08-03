@@ -1,6 +1,8 @@
 #include <algorithm>
 
+#include "ActorManager.hpp"
 #include "Bird.hpp"
+#include "Bullet.hpp"
 #include "Globals.hpp"
 #include "R.hpp"
 #include "Sprite.hpp"
@@ -14,6 +16,7 @@ Bird::Bird(const float &x, const float &y, Game *g) {
   this->position = {x, y};
   this->gravity = 0.44;
   this->velocity = 0;
+  this->shootCooldown = 0.05f;
   this->state = Bird::BirdState::STATE_MOVING;
 
   this->initializeSprites();
@@ -208,6 +211,25 @@ void Bird::doAction(action_t action, int magnitute) {
       PlaySound(R::getSingleton().getSound(R::SoundId::WING));
       this->velocity = -WITH_SCALE(2.5);
 
+      break;
+    case BirdActions::SHOOT:
+      if (this->state == BirdState::STATE_MOVING) {
+        if (GetTime() - lastShootTime < shootCooldown)
+          return;
+        lastShootTime = GetTime();
+
+        Bullet *bullet = new Bullet();
+        bullet->position.x = this->game->bird->position.x - WITH_SCALE(4);
+        bullet->position.y = this->game->bird->position.y;
+
+        this->bullets.push_back(bullet);
+        this->game->actorManager->add(bullet);
+
+        PlaySound(R::getSingleton().getSound(R::SoundId::SHOOT));
+      }
+      break;
+
+    default:
       break;
   }
 }

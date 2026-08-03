@@ -15,6 +15,7 @@ class Actor;
 class Sprite {
 public:
   Sprite(Actor *owner = nullptr);
+
   void draw() const;
 
   void update();

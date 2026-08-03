@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+#include <vector>
 #ifndef BIRD_HPP
 #define BIRD_HPP
 
@@ -11,7 +13,7 @@
 
 class Game;
 
-enum BirdActions { BIRD_ACTION_JUMP = 1 };
+enum BirdActions { BIRD_ACTION_JUMP = 1, SHOOT };
 
 class Bird : public ControllableActor {
 public:
@@ -37,6 +39,10 @@ private:
   Game *game;
   BirdState state;
   std::array<Sprite, 13> sprites;
+  std::vector<Actor *> bullets;
+  float lastShootTime = 0.0f;
+  float shootCooldown;
+
   float velocity;
   float gravity;
 };

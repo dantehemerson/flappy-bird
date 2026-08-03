@@ -59,6 +59,11 @@ Game::Game(Application *const app)
   controlBird->addActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getMouse(),
                                    MouseButton::MOUSE_BUTTON_LEFT, Peripheral::ON_PRESS);
 
+  controlBird->addActionPeripheral(BirdActions::SHOOT, this->app->getKeyboard(),
+                                   KeyboardKey::KEY_X, Peripheral::ON_PRESSING);
+  controlBird->addActionPeripheral(BirdActions::SHOOT, this->app->getMouse(),
+                                   MouseButton::MOUSE_BUTTON_RIGHT, Peripheral::ON_PRESSING);
+
   this->pipesManager = new PipesManager(this->bird);
   pipesManager->setVelocityX(-WITH_SCALE(1));
 
