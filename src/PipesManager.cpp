@@ -70,7 +70,7 @@ bool PipesManager::hasBirdPassedPipe(Bird *bird) {
     }
   }
 
-  return false;)
+  return false;
 }
 
 bool PipesManager::hasBirdOrBulletsCollided(const Bird *bird) const {
