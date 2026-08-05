@@ -12,6 +12,7 @@ using namespace std;
 Pipe::Pipe() {
   this->_hasPassedBird = false;
   this->initializeSprites();
+  this->reset();
 }
 
 void Pipe::initializeSprites() {
@@ -113,4 +114,12 @@ bool Pipe::hasCollided(const Bullet *bullet) const {
                           this->spritePipeBottom.getWidth(), this->spritePipeBottom.getHeight()};
 
   return CheckCollisionRecs(bulletRect, pipeTop) || CheckCollisionRecs(bulletRect, pipeBottom);
+}
+
+bool Pipe::isAlive() const {
+  return this->lives >= 1;
+}
+
+void Pipe::reset() {
+  this->lives = 10;
 }
