@@ -1,7 +1,10 @@
 #include <algorithm>
 
+#include "ActorManager.hpp"
 #include "Bird.hpp"
+#include "Bullet.hpp"
 #include "Globals.hpp"
+#include "PipesManager.hpp"
 #include "R.hpp"
 #include "Sprite.hpp"
 #include "Utils.hpp"
@@ -9,11 +12,13 @@
 
 using namespace std;
 
-Bird::Bird(const float &x, const float &y, Game *g) {
+Bird::Bird(const float &x, const float &y, Game *g, PipesManager *pipesManager) {
   this->game = g;
+  this->pipesManager = pipesManager;
   this->position = {x, y};
   this->gravity = 0.44;
   this->velocity = 0;
+  this->shootCooldown = 0.05f;
   this->state = Bird::BirdState::STATE_MOVING;
 
   this->initializeSprites();
@@ -192,6 +197,13 @@ bool Bird::isDead() const {
   return this->state == BirdState::STATE_DEAD || this->state == BirdState::DEAD_WITH_FALL;
 }
 
+bool Bird::hasCollided() const {
+  if (this->pipesManager == nullptr) {
+    return false;
+  }
+  return this->pipesManager->hasBirdOrBulletsCollided(this);
+}
+
 void Bird::doAction(action_t action, int magnitute) {
   switch (action) {
     case BirdActions::BIRD_ACTION_JUMP:
@@ -208,6 +220,25 @@ void Bird::doAction(action_t action, int magnitute) {
       PlaySound(R::getSingleton().getSound(R::SoundId::WING));
       this->velocity = -WITH_SCALE(2.5);
 
+      break;
+    case BirdActions::SHOOT:
+      if (this->state == BirdState::STATE_MOVING) {
+        if (GetTime() - lastShootTime < shootCooldown)
+          return;
+        lastShootTime = GetTime();
+
+        Bullet *bullet = new Bullet();
+        bullet->position.x = this->game->bird->position.x - WITH_SCALE(4);
+        bullet->position.y = this->game->bird->position.y;
+
+        this->bullets.push_back(bullet);
+        this->game->actorManager->add(bullet);
+
+        PlaySound(R::getSingleton().getSound(R::SoundId::SHOOT));
+      }
+      break;
+
+    default:
       break;
   }
 }

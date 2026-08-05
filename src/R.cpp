@@ -33,6 +33,7 @@ void R::loadResources() {
   this->sounds.insert({R::SoundId::HIT, LoadSound("resources/sounds/sfx_hit.ogg")});
   this->sounds.insert({R::SoundId::DIE, LoadSound("resources/sounds/sfx_die.ogg")});
   this->sounds.insert({R::SoundId::SWOOSHING, LoadSound("resources/sounds/sfx_swooshing.ogg")});
+  this->sounds.insert({R::SoundId::SHOOT, LoadSound("resources/sounds/sfx_shoot.wav")});
 }
 
 Texture2D R::getTexture(const R::TextureIds &textureId) const {

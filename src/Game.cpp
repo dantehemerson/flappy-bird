@@ -48,7 +48,10 @@ Game::Game(Application *const app)
   this->actorManager = new ActorManager();
   this->stageManager = new StageManager(actorManager);
 
-  this->bird = new Bird(WITH_SCALE(50), WITH_SCALE(126), this);
+  this->pipesManager = new PipesManager();
+  pipesManager->setVelocityX(-WITH_SCALE(1));
+
+  this->bird = new Bird(WITH_SCALE(50), WITH_SCALE(126), this, this->pipesManager);
   this->bird->setState(Bird::BirdState::STATE_IDLE);
 
   Control *controlBird = new Control();
@@ -59,8 +62,10 @@ Game::Game(Application *const app)
   controlBird->addActionPeripheral(BirdActions::BIRD_ACTION_JUMP, this->app->getMouse(),
                                    MouseButton::MOUSE_BUTTON_LEFT, Peripheral::ON_PRESS);
 
-  this->pipesManager = new PipesManager(this->bird);
-  pipesManager->setVelocityX(-WITH_SCALE(1));
+  controlBird->addActionPeripheral(BirdActions::SHOOT, this->app->getKeyboard(),
+                                   KeyboardKey::KEY_X, Peripheral::ON_PRESSING);
+  controlBird->addActionPeripheral(BirdActions::SHOOT, this->app->getMouse(),
+                                   MouseButton::MOUSE_BUTTON_RIGHT, Peripheral::ON_PRESSING);
 
   this->actorManager->add(pipesManager);
 
@@ -97,10 +102,10 @@ void Game::update() {
   this->actorManager->update();
 
   if (!this->bird->isDead()) {
-    if (this->pipesManager->hasBirdCollided()) {
+    if (this->bird->hasCollided()) {
       this->bird->setState(Bird::BirdState::DEAD_WITH_FALL);
       this->execute(GameActions::BIRD_DIED);
-    } else if (this->pipesManager->hasBirdPassedPipe()) {
+    } else if (this->pipesManager->hasBirdPassedPipe(this->bird)) {
       this->score++;
       this->textScore->setText(to_string(this->score));
       PlaySound(R::getSingleton().getSound(R::SoundId::POINT));

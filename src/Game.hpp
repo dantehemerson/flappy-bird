@@ -35,16 +35,16 @@ public:
   void reinit();
   void over();
 
+  ActorManager *actorManager;
+  Bird *bird;
+
   ~Game();
 
 private:
   ControlManager *controlManager;
-  ActorManager *actorManager;
   StageManager *stageManager;
   PipesManager *pipesManager;
   Surface *surface;
-
-  Bird *bird;
 
   HiddenText *textScore;
   GetReadyScreen *getReadyScreen;

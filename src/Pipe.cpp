@@ -1,5 +1,6 @@
 #include <algorithm>
 
+#include "Bullet.hpp"
 #include "Globals.hpp"
 #include "Pipe.hpp"
 #include "Utils.hpp"
@@ -11,6 +12,7 @@ using namespace std;
 Pipe::Pipe() {
   this->_hasPassedBird = false;
   this->initializeSprites();
+  this->reset();
 }
 
 void Pipe::initializeSprites() {
@@ -54,8 +56,8 @@ bool Pipe::hasPassedBird() const {
   return this->_hasPassedBird;
 }
 
-bool Pipe::hasCollided(Bird *bird) {
-  // Add -200px to check collition when bird is too high
+bool Pipe::hasCollided(const Bird *bird) const {
+  // Add -200 to check collition when bird is too high
   Rectangle pipeTop{this->position.x + WITH_SCALE(1), this->position.y - WITH_SCALE(200),
                     this->spritePipeTop.getWidth(),
                     this->spritePipeTop.getHeight() + WITH_SCALE(200)};
@@ -96,4 +98,28 @@ bool Pipe::hasCollided(Bird *bird) {
   // #endif
 
   return false;
+}
+
+bool Pipe::hasCollided(const Bullet *bullet) const {
+  Rectangle bulletRect{bullet->position.x, bullet->position.y, bullet->getWidth(),
+                       bullet->getHeight()};
+
+  // Add -200 to check collition when bullet is too high
+  Rectangle pipeTop{this->position.x + WITH_SCALE(1), this->position.y - WITH_SCALE(200),
+                    this->spritePipeTop.getWidth(),
+                    this->spritePipeTop.getHeight() + WITH_SCALE(200)};
+  Rectangle pipeBottom = {this->position.x + WITH_SCALE(1),
+                          this->position.y + this->spritePipeTop.getHeight() +
+                              Globals::Constants::PIPES_VERTICAL_GAP,
+                          this->spritePipeBottom.getWidth(), this->spritePipeBottom.getHeight()};
+
+  return CheckCollisionRecs(bulletRect, pipeTop) || CheckCollisionRecs(bulletRect, pipeBottom);
+}
+
+bool Pipe::isAlive() const {
+  return this->lives >= 1;
+}
+
+void Pipe::reset() {
+  this->lives = 10;
 }

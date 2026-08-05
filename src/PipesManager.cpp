@@ -6,8 +6,7 @@
 
 using namespace std;
 
-PipesManager::PipesManager(Bird *bird) {
-  this->bird = bird;
+PipesManager::PipesManager() {
   this->pipes.push_back(new Pipe());
   this->pipes.push_back(new Pipe());
   this->pipes.push_back(new Pipe());
@@ -63,10 +62,9 @@ void PipesManager::setState(PipesState state) {
   this->state = state;
 }
 
-bool PipesManager::hasBirdPassedPipe() {
+bool PipesManager::hasBirdPassedPipe(Bird *bird) {
   for (auto &pipe : this->pipes) {
-    if (this->bird->position.x > pipe->position.x + (pipe->getWidth() / 2) &&
-        !pipe->hasPassedBird()) {
+    if (!pipe->hasPassedBird() && bird->position.x > pipe->position.x + (pipe->getWidth() / 2)) {
       pipe->setHasPassedBird(true);
       return true;
     }
@@ -75,10 +73,9 @@ bool PipesManager::hasBirdPassedPipe() {
   return false;
 }
 
-bool PipesManager::hasBirdCollided() const {
+bool PipesManager::hasBirdOrBulletsCollided(const Bird *bird) const {
   for (auto &pipe : this->pipes) {
-    bool collided = pipe->hasCollided(this->bird);
-    if (collided) {
+    if (pipe->hasCollided(bird)) {
       return true;
     }
   }
