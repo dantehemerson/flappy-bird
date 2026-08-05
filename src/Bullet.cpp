@@ -26,3 +26,11 @@ void Bullet::draw() const {
 void Bullet::update() {
   this->position.x += GetFrameTime() * this->velocity;
 }
+
+float Bullet::getWidth() const {
+  return this->sprites[static_cast<int>(this->state)].getWidth();
+}
+
+float Bullet::getHeight() const {
+  return this->sprites[static_cast<int>(this->state)].getHeight();
+}

@@ -13,7 +13,7 @@ class Pipe;
 
 class PipesManager : public Actor {
 public:
-  PipesManager(Bird *bird);
+  PipesManager();
 
   enum class PipesState : size_t { STOPPED = 1, MOVING };
 
@@ -25,13 +25,12 @@ public:
 
   void setState(PipesState state);
 
-  bool hasBirdPassedPipe();
-  bool hasBirdCollided() const;
+  bool hasBirdPassedPipe(Bird *bird);
+  bool hasBirdOrBulletsCollided(const Bird *bird) const;
 
 private:
   vector<Pipe *> pipes;
   PipesState state;
-  Bird *bird;
   float velocityX;
   float distanceBetweenPipes;
 };

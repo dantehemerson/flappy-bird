@@ -16,6 +16,7 @@ public:
   void setHasPassedBird(const bool &hasPassedBird);
 
   float getWidth() const;
+  float getHeight() const;
   bool hasPassedBird() const;
   bool hasCollided(Actor *bird);
 
